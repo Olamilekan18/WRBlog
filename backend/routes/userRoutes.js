@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import User from "../models/userModel.js"; // Import user model
+import Post from '../models/Post.js'; // Import post model
 
 dotenv.config();
 
@@ -42,4 +43,42 @@ router.post("/register", async (req, res) => {
   }
 });
 
+// User Login (Signin)
+
+router.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        // Check if user exists
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        // Check if password is correct
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: "Invalid email or password" });
+        }
+        // Generate JWT Token
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        res.json({ token });
+        } catch (error) {
+            res.status(500).json({ message: "Server error" });
+        }
+        });
+
+        //Get a single post by id
+        router.get("/:id", async (req, res) => {
+            try {
+              const post = await Post.findById(req.params.id);
+          
+              if (!post) {
+                return res.status(404).json({ message: "Post not found" });
+              }
+          
+              res.json(post);
+            } catch (error) {
+              res.status(500).json({ message: "Server error" });
+            }
+          });
 export default router;
