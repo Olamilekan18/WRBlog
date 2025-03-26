@@ -1,31 +1,36 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import morgan from "morgan";
-import cookieParser from "cookie-parser";
-import connectDB from "./config/db.js"; 
-import postRoutes from './routes/postRoutes.js'
+import connectDB from "./config/db.js"; // Import your database connection function
+import postRoutes from "./routes/postRoutes.js";
+import userRoutes from './routes/userRoutes.js'
 
 dotenv.config(); // Load environment variables
-connectDB()
+connectDB(); // Connect to MongoDB
 
 const app = express();
+app.use(express.json());
+
+app.use("/api/users", userRoutes);
+
+// Connect to Database
 
 // Middleware
-app.use(express.json());
-app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
-app.use(morgan("dev"));
-app.use(cookieParser());
+app.use(cors()); // Enables CORS for frontend-backend communication
 
-// Connect to MongoDB
-connectDB();
+// Routes
+app.use("/api/posts", postRoutes);
 
-// Test Route
+// Basic Route to Check Server Status
 app.get("/", (req, res) => {
-  res.send("WRBlog API is running...");
+  res.send("✅ API is running...");
 });
 
-app.use('/api/posts', postRoutes)
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  res.status(statusCode).json({ message: err.message });
+});
 
 // Start Server
 const PORT = process.env.PORT || 5000;
