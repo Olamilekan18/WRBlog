@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDB from "./config/db.js"; // Import your database connection function
 import postRoutes from "./routes/postRoutes.js";
 import userRoutes from './routes/userRoutes.js'
+import commentRoutes from './routes/commentRoutes.js'
 
 dotenv.config(); // Load environment variables
 connectDB(); // Connect to MongoDB
@@ -12,14 +13,20 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
+app.use("/api/posts", postRoutes);
+app.use('/api/comments', commentRoutes)
 
-// Connect to Database
+
 
 // Middleware
 app.use(cors()); // Enables CORS for frontend-backend communication
 
 // Routes
-app.use("/api/posts", postRoutes);
+
+
+
+//changed this
+
 
 // Basic Route to Check Server Status
 app.get("/", (req, res) => {
