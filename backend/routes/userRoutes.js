@@ -4,8 +4,9 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import User from "../models/userModel.js"; 
 import Post from '../models/Post.js'; 
-import { getUserProfile, updateUserProfile } from "../controllers/userController.js";
+import { getUserProfile, updateUserProfile, getAllUsers, uploadProfilePicture, getCurrentUserProfile } from "../controllers/userController.js";
 import protect from "../middleware/authMiddleware.js";
+import { upload } from "../middleware/uploadMiddleware.js";
 
 dotenv.config();
 
@@ -70,7 +71,7 @@ router.post("/login", async (req, res) => {
         });
 
         //Get a single post by id
-        router.get("/:id", async (req, res) => {
+        router.get("/posts/:id", async (req, res) => {
             try {
               const post = await Post.findById(req.params.id);
           
@@ -83,7 +84,10 @@ router.post("/login", async (req, res) => {
               res.status(500).json({ message: "Server error" });
             }
           });
-
+          router.get('/', getAllUsers )
+          
+          router.get('/profile', protect, getCurrentUserProfile); 
           router.get('/:id', getUserProfile);
           router.put('/profile', protect, updateUserProfile);
+          router.post('/profile/upload', protect, upload.single("image"), uploadProfilePicture)
 export default router;
