@@ -37,7 +37,7 @@ export const getPosts = async (req, res) => {
   }
 };
 
-
+ 
 export const updatePost = async (req, res) => {
     const { id } = req.params;
     const { title, content } = req.body;

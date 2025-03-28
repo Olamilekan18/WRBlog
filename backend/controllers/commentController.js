@@ -15,15 +15,15 @@ export const createComment = async (req, res) => {
         const userId = req.user.id;
 
         
-        console.log("Validating postId:", postId); // Should now show the ID
-        
+        console.log("Validating postId:", postId); 
+
         // Validate post ID format
         if (!mongoose.Types.ObjectId.isValid(postId)) {
             console.log(`Invalid post ID received: ${postId}`);
             return res.status(400).json({ 
                 success: false, 
                 message: "Invalid post ID format",
-                receivedId: postId // Echo back the received ID for debugging
+                receivedId: postId 
             });
         }
 
@@ -81,9 +81,9 @@ export const createComment = async (req, res) => {
 // Get all comments for a post
 export const getComments = async (req, res) => {
     try {
-        const { postId } = req.params; // Now using postId to match route parameter
+        const { postId } = req.params; 
         
-        console.log("Received postId:", postId); // Debug log
+        console.log("Received postId:", postId); 
         
         if (!mongoose.Types.ObjectId.isValid(postId)) {
             return res.status(400).json({ 
