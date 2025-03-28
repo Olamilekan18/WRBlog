@@ -2,8 +2,10 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import User from "../models/userModel.js"; // Import user model
-import Post from '../models/Post.js'; // Import post model
+import User from "../models/userModel.js"; 
+import Post from '../models/Post.js'; 
+import { getUserProfile, updateUserProfile } from "../controllers/userController.js";
+import protect from "../middleware/authMiddleware.js";
 
 dotenv.config();
 
@@ -81,4 +83,7 @@ router.post("/login", async (req, res) => {
               res.status(500).json({ message: "Server error" });
             }
           });
+
+          router.get('/:id', getUserProfile);
+          router.put('/profile', protect, updateUserProfile);
 export default router;
