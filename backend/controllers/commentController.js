@@ -193,6 +193,23 @@ export const deleteComment = async (req, res) => {
     }
 };
 
+export const updateProfilePicture = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        if (!req.file) return res.status(400).json({ message: "No image uploaded" });
+
+        user.profilePicture = req.file.path;
+        await user.save();
+
+        res.status(200).json({ message: "Profile picture updated", profilePicture: user.profilePicture });
+    } catch (error) {
+        res.status(500).json({ message: "Server error updating profile picture", error });
+    }
+};
+
+
 // Update a comment
 export const updateComment = async (req, res) => {
     try {

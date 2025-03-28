@@ -127,3 +127,29 @@ export const uploadProfilePicture = async (req, res) => {
         res.status(500).json({ message: "Server error updating profile picture", error });
     }
 };
+
+export const updateProfilePicture = async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: 'No image uploaded' });
+      }
+  
+      const user = await User.findByIdAndUpdate(
+        req.user._id,
+        { profilePicture: req.file.path },
+        { new: true }
+      ).select('-password');
+  
+      res.json({
+        success: true,
+        data: user,
+        imagePath: req.file.path
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Profile picture update failed',
+        error: error.message
+      });
+    }
+  };
