@@ -1,23 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Navbar from './Components/Navbar'
+import React from "react";
+import { DarkModeProvider } from "./context/DarkModeContext.jsx";
+import Navbar from "./Components/Navbar";
+import HeroSection from "./Components/HeroSection";
+import "./App.css"; // Import your global CSS file
+import AboutUsSection from "./Components/AboutUsSection";
 
+// import { ThemeProvider } from "./context/ThemeProvider.jsx";
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-    <div className='flex flex-col  min-h-screen bg-gray-100'>
-      <Navbar />
-      <h1 class="text-3xl font-bold underline ">
-    Hello world!
-  </h1>
-  <h2 className='bg-amber-200'>Fucker</h2>
-  </div>
-    </>
-  )
+    <DarkModeProvider>
+      <div className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white transition duration-300">
+        <Navbar />
+        <HeroSection />
+        <AboutUsSection />
+      </div>
+    </DarkModeProvider>
+  );
 }
 
-export default App
+export default App;
