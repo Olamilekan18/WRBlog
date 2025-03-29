@@ -74,7 +74,7 @@ const { isDark, toggle } = useDarkMode();
 
           {/* Mobile Dark Mode Toggle */}
           <button
-            onClick={() => toggle(!darkMode)}
+            onClick={toggle}
             className={`p-2 border ${
               isDark ? "border-gray-600 hover:bg-gray-700" : "border-green-300 hover:bg-green-200"
             } rounded-lg`}
