@@ -4,6 +4,9 @@ import Navbar from "./Components/Navbar";
 import HeroSection from "./Components/HeroSection";
 import "./App.css"; // Import your global CSS file
 import AboutUsSection from "./Components/AboutUsSection";
+import FeatureSection from "./Components/FeatureSection.jsx";
+import FeaturedPostsSection from "./Components/FeaturedPosts.jsx";
+import TestimonialsSection from "./Components/Testimonials.jsx";
 
 // import { ThemeProvider } from "./context/ThemeProvider.jsx";
 function App() {
@@ -13,6 +16,9 @@ function App() {
         <Navbar />
         <HeroSection />
         <AboutUsSection />
+        <FeatureSection />
+        <FeaturedPostsSection />
+        <TestimonialsSection />
       </div>
     </DarkModeProvider>
   );

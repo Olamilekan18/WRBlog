@@ -6,7 +6,6 @@ const HeroSection = () => {
   const { isDark } = useDarkMode();
 
   return (
-    // <div className={ da "dark-theme-class" : "light-theme-class"}>
       <section className="relative flex flex-col md:flex-row items-center justify-between px-6 md:px-20 py-16 bg-gray-100 dark:bg-gray-900 transition duration-300">
         {/* Left Content */}
         <div className="md:w-1/2 text-center md:text-left">

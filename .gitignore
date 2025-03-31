@@ -14,6 +14,8 @@ logs/
 debug.log
 error.log
 
+uploads/
+
 # Database and build files
 dist/
 build/
