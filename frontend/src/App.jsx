@@ -8,8 +8,6 @@ import FeatureSection from "./Components/FeatureSection.jsx";
 import FeaturedPostsSection from "./Components/FeaturedPosts.jsx";
 import TestimonialsSection from "./Components/Testimonials.jsx";
 import Newsletter from "./Components/NewsLetter.jsx";
-
-// import { ThemeProvider } from "./context/ThemeProvider.jsx";
 function App() {
   return (
     <DarkModeProvider>

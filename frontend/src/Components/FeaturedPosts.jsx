@@ -42,6 +42,26 @@ const FeaturedPostsSection = () => {
         readTime: "4 min read",
         category: "Tech"
   
+    },
+    {
+        id: 5,
+      title: "Building a full stack app",
+        excerpt: "Learn how to build a full stack application using React and Express.js.",
+        author: "Olamilekan Kareem",
+        date: "July 15, 2024",
+        readTime: "4 min read",
+        category: "Tech"
+  
+    },
+    {
+        id: 6,
+      title: "Building a full stack app",
+        excerpt: "Learn how to build a full stack application using React and Express.js.",
+        author: "Olamilekan Kareem",
+        date: "July 15, 2024",
+        readTime: "4 min read",
+        category: "Tech"
+  
     }
   ];
 
