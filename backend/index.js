@@ -5,27 +5,22 @@ import connectDB from "./config/db.js"; // Import your database connection funct
 import postRoutes from "./routes/postRoutes.js";
 import userRoutes from './routes/userRoutes.js'
 import commentRoutes from './routes/commentRoutes.js'
+// import subscribeRoutes from './routes/subscribeRoutes.js'
+import subscribeRoutes from './routes/subscribeRoutes.js'
 
 dotenv.config(); // Load environment variables
 connectDB(); // Connect to MongoDB
 
+
 const app = express();
+app.use(cors()); // Enable CORS for all routes
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
-app.use('/api/comments', commentRoutes)
+app.use('/api/comments', commentRoutes);
+app.use('/api/subscribe', subscribeRoutes)
 
-
-
-// Middleware
-app.use(cors()); // Enables CORS for frontend-backend communication
-
-// Routes
-
-
-
-//changed this
 
 
 // Basic Route to Check Server Status
