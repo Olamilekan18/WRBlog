@@ -7,6 +7,7 @@ import AboutUsSection from "./Components/AboutUsSection";
 import FeatureSection from "./Components/FeatureSection.jsx";
 import FeaturedPostsSection from "./Components/FeaturedPosts.jsx";
 import TestimonialsSection from "./Components/Testimonials.jsx";
+import Newsletter from "./Components/NewsLetter.jsx";
 
 // import { ThemeProvider } from "./context/ThemeProvider.jsx";
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <FeatureSection />
         <FeaturedPostsSection />
         <TestimonialsSection />
+        <Newsletter />
       </div>
     </DarkModeProvider>
   );
