@@ -2,6 +2,7 @@ import React, { useState } from "react"; // Import useState
 import { useDarkMode } from "../context/DarkModeContext";
 import axios from "axios";
 import { FaFacebook, FaInstagram, FaTwitter, FaWhatsapp } from "react-icons/fa";
+import {FaXTwitter} from "react-icons/fa6"
 
 
 const Newsletter = () => {
@@ -58,10 +59,10 @@ const Newsletter = () => {
         
                 {/* Social Media Links */}
                 <div className="flex justify-center space-x-4 mb-4">
-                  <a href="#" className="hover:text-blue-500"><FaFacebook size={24} /></a>
-                  <a href="#" className="hover:text-gray-400"><FaTwitter size={24} /></a>
-                  <a href="#" className="hover:text-pink-500"><FaInstagram size={24} /></a>
-                  <a href="#" className="hover:text-green-500"><FaWhatsapp size={24} /></a>
+                  <a href="https://web.facebook.com/ayomide.olamilekan.353803/" target = '_blank'  className="hover:text-blue-500"><FaFacebook size={24} /></a>
+                  <a href="#" target = '_blank' className="hover:text-gray-400"><FaXTwitter size={24} /></a>
+                  <a href="#" target = '_blank' className="hover:text-pink-500"><FaInstagram size={24} /></a>
+                  <a href="#" target = '_blank' className="hover:text-green-500"><FaWhatsapp size={24} /></a>
                 </div>
         
                 {/* Copyright */}

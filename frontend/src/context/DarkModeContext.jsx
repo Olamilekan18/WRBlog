@@ -7,10 +7,8 @@ export const DarkModeProvider = ({ children }) => {
   const [isDark, setIsDark] = useState(false); // Start with light mode
 
   useEffect(() => {
-    // 1. Add/remove 'dark' class to HTML element
     document.documentElement.classList.toggle('dark', isDark);
-    // 2. Force color scheme
-    document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+     document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
   }, [isDark]);
 
   const toggle = () => setIsDark(!isDark);
