@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import bodyParser from "body-parser";
 import cors from "cors";
 import connectDB from "./config/db.js"; // Import your database connection function
 import postRoutes from "./routes/postRoutes.js";

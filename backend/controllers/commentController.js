@@ -168,8 +168,7 @@ export const deleteComment = async (req, res) => {
                 message: "Comment not found for this post" 
             });
         }
-
-        // Check ownership (add admin check here if needed)
+        // Check ownership
         if (comment.user.toString() !== userId) {
             return res.status(403).json({ 
                 success: false, 
