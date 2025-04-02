@@ -28,7 +28,14 @@ const TestimonialsSection = () => {
       author: "Emma Rodriguez",
       role: "Travel Blogger",
       rating: 5
-    }
+    },
+  {
+    id: 4,
+    quote: "I recommend WRBlog to everybody. It is simply the best",
+    author: "Brad Pitt",
+    role: "Travel Blogger",
+    rating: 5
+  }
   ];
 
   // Auto-slide effect
