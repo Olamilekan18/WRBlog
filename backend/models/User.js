@@ -29,8 +29,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  followers: [ObjectId],
-  following: [ObjectId],
+  // followers: [ObjectId],
+  // following: [ObjectId],
 }, { timestamps: true });
 
 // Hash password before saving

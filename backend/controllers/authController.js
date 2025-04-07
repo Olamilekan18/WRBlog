@@ -23,9 +23,9 @@ export const registerUser = async (req, res) => {
       expiresIn: "7d",
     });
 
-    res.status(201).json({ token, userId: user._id, name: user.name });
+    res.json({ token, userId: user._id, name: user.name });
   } catch (error) {
-    res.status(500).json({ message: "Error registering user", error });
+    res.json({ message: "Error registering user", error });
   }
 };
 
@@ -48,7 +48,13 @@ export const loginUser = async (req, res) => {
       expiresIn: "30d",
     });
 
-    res.status(200).json({ token, userId: user._id, name: user.name });
+    // Generate token
+    // const token = user.generateAuthToken();
+
+
+    res.json({ token, userId: user._id, name: user.name });
+    res.json({ token, userId: user._id, name: user.name });
+
   } catch (error) {
     res.status(500).json({ message: "Error logging in", error });
   }

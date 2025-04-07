@@ -12,8 +12,8 @@ import AuthForm from "./Pages/Signup.jsx";
 import ForgotPassword from "./Pages/ForgotPassword.jsx";
 import ResetPassword from "./Pages/ResetPassword.jsx";
 import Home from "./Pages/Home.jsx";
-import HomeNavbar from "./Components/HomeNavbar.jsx";
 import "./App.css"; 
+
 function App() {
   return (
     <DarkModeProvider>

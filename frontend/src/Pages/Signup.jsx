@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ForgotPassword from "../Components/ForgotPassword";
 
 const AuthForm = ({ isDark, type, onAuthSuccess }) => {
-    axios.defaults.baseURL = "http://localhost:5000"; // Set your API base URL here
+    axios.defaults.baseURL = "http://localhost:5000"; 
   const [formData, setFormData] = useState({ 
     email: "", 
     password: "", 
@@ -21,9 +21,7 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage("");
-    setError("");
-    setIsLoading(true);
+   
     
     try {
       const endpoint = type === "signup" 
@@ -31,14 +29,17 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
         : "/api/users/login";
       
       const { data } = await axios.post(endpoint, formData);
+      console.log("Backend response:", data);
       
       // Store user data and token
       localStorage.setItem("userData", JSON.stringify({
         id: data._id,
         name: data.name,
-        email: data.email,
+        email: data.email, 
         token: data.token
       }));
+
+      console.log('User data saved', localStorage.getItem("userData"));
       
       // Set authorization header for future requests
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
@@ -53,7 +54,7 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
     } catch (err) {
       const errorMessage = err.response?.data?.message || 
                          err.message || 
-                         "Something went wrong";
+                          "Something went wrong";
       setError(errorMessage);
     } finally {
       setIsLoading(false);
