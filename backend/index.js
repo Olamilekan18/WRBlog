@@ -8,6 +8,7 @@ import userRoutes from './routes/userRoutes.js'
 import commentRoutes from './routes/commentRoutes.js'
 // import subscribeRoutes from './routes/subscribeRoutes.js'
 import subscribeRoutes from './routes/subscribeRoutes.js'
+import authRoutes from './routes/authRoutes.js'
 
 dotenv.config(); // Load environment variables
 connectDB(); // Connect to MongoDB
@@ -17,6 +18,7 @@ const app = express();
 app.use(cors()); // Enable CORS for all routes
 app.use(express.json());
 
+app.use('/api/auth', authRoutes)
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use('/api/comments', commentRoutes);

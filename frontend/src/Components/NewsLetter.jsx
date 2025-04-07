@@ -60,9 +60,9 @@ const Newsletter = () => {
                 {/* Social Media Links */}
                 <div className="flex justify-center space-x-4 mb-4">
                   <a href="https://web.facebook.com/ayomide.olamilekan.353803/" target = '_blank'  className="hover:text-blue-500"><FaFacebook size={24} /></a>
-                  <a href="#" target = '_blank' className="hover:text-gray-400"><FaXTwitter size={24} /></a>
-                  <a href="#" target = '_blank' className="hover:text-pink-500"><FaInstagram size={24} /></a>
-                  <a href="#" target = '_blank' className="hover:text-green-500"><FaWhatsapp size={24} /></a>
+                  <a href="https://x.com/Olamilekan_js" target = '_blank' className="hover:text-gray-400"><FaXTwitter size={24} /></a>
+                  <a href="https://www.instagram.com/olamilekan.js/" target = '_blank' className="hover:text-pink-500"><FaInstagram size={24} /></a>
+                  <a href="wa.me//+2349035095897" target = '_blank' className="hover:text-green-500"><FaWhatsapp size={24} /></a>
                 </div>
         
                 {/* Copyright */}

@@ -9,8 +9,9 @@ import FeaturedPostsSection from "./Components/FeaturedPosts.jsx";
 import TestimonialsSection from "./Components/Testimonials.jsx";
 import Newsletter from "./Components/NewsLetter.jsx";
 import AuthForm from "./Pages/Signup.jsx";
-import "./App.css"; // Import your global CSS file
-
+import ForgotPassword from "./Pages/ForgotPassword.jsx";
+import ResetPassword from "./Pages/ResetPassword.jsx";
+import "./App.css"; 
 function App() {
   return (
     <DarkModeProvider>
@@ -38,6 +39,11 @@ function App() {
 
             {/* Login Route */}
             <Route path="/login" element={<AuthForm type="login" />} />
+            {/* Forgot Password Route */}
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            
+            {/* Reset Password Route */}
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
           </Routes>
         </div>
       </Router>

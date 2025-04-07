@@ -16,3 +16,15 @@ export const subscribeController = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 }
+
+//get all subscribers
+
+export const getAllSubscribers = async (req, res) => {
+    try {
+        const subscribers = await Subscriber.find({})
+        res.status(200).json(subscribers)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "Internal server error" })
+    }
+}

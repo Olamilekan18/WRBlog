@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ForgotPassword from "../Components/ForgotPassword";
 
 const AuthForm = ({ isDark, type, onAuthSuccess }) => {
     axios.defaults.baseURL = "http://localhost:5000"; // Set your API base URL here
@@ -164,11 +165,13 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
               </a>
             </p>
           ) : (
+
             <p className="text-sm">
               Don't have an account?{" "}
               <a href="/signup" className="text-green-600 hover:underline dark:text-green-400">
                 Sign up here
               </a>
+              <ForgotPassword />
             </p>
           )}
         </div>

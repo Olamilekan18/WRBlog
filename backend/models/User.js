@@ -1,28 +1,27 @@
-import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
-const userSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    profilePicture: {
-      type: String,
-      default: "",
-    },
+const userSchema = new mongoose.Schema({
+  email: { 
+    type: String, 
+    required: true, 
+    unique: true 
   },
-  { timestamps: true }
-);
+  password: { 
+    type: String, 
+    required: true 
+  },
+  profilePicture: {
+    type: String,
+    default: "",
+  },
+  passwordResetToken: {
+    type: String,
+  },
+  passwordResetExpires: {
+    type: Date,
+  },
+}, { timestamps: true });
 
 // Hash password before saving
 userSchema.pre("save", async function (next) {
@@ -32,5 +31,7 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-const User = mongoose.model("User", userSchema);
+// Check if model is already defined
+const User = mongoose.models.User || mongoose.model('User', userSchema);
+
 export default User;
