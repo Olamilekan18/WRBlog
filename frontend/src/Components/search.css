@@ -1,0 +1,42 @@
+.search-container{
+    position: relative;
+    width: 50px;
+    transition: width 0.3s ease-in-out;
+}
+
+.search-container input{
+    width : 100%;
+    padding: 10px, 0px, 10px, 15px;
+    font-size: 16px;
+    border: none;
+    border-radius : 20px;
+    outline: none;
+    opacity : 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.search-container button{
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    transform: translateY(-50%);
+    /* background: #007BFF; */
+    border: none;
+border-radius: 50%;
+width: 30px;
+height: 30px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: transform 0.3s ease;
+}
+.search-container:hover{
+    width: 200px;
+}
+.search-container:hover input{
+    opacity: 1;
+}
+.search-container:hover button{
+    transform: translateY(-50%) rotate(360deg);
+}

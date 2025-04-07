@@ -47,7 +47,7 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
       if (onAuthSuccess) {
         onAuthSuccess(data);
       } else {
-        navigate("/dashboard");
+        navigate("/home");
       }
       
     } catch (err) {

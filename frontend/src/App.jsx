@@ -11,19 +11,22 @@ import Newsletter from "./Components/NewsLetter.jsx";
 import AuthForm from "./Pages/Signup.jsx";
 import ForgotPassword from "./Pages/ForgotPassword.jsx";
 import ResetPassword from "./Pages/ResetPassword.jsx";
+import Home from "./Pages/Home.jsx";
+import HomeNavbar from "./Components/HomeNavbar.jsx";
 import "./App.css"; 
 function App() {
   return (
     <DarkModeProvider>
       <Router>
         <div className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white transition duration-300">
-          <Navbar />
+          {/* <Navbar /> */}
           <Routes>
             {/* Homepage Route */}
             <Route
               path="/"
               element={
                 <>
+                  <Navbar />
                   <HeroSection />
                   <AboutUsSection />
                   <FeatureSection />
@@ -44,6 +47,13 @@ function App() {
             
             {/* Reset Password Route */}
             <Route path="/reset-password/:token" element={<ResetPassword />} />
+
+            {/* Homepage Route */}
+            <Route path="/home" element={<>
+            {/* <HomeNavbar/> */}
+            <Home/>
+            </>} /> 
+
           </Routes>
         </div>
       </Router>

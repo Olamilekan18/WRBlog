@@ -21,6 +21,16 @@ const userSchema = new mongoose.Schema({
   passwordResetExpires: {
     type: Date,
   },
+  name: {
+    type: String,
+    required: true,
+  },
+  bio: {
+    type: String,
+    default: "",
+  },
+  followers: [ObjectId],
+  following: [ObjectId],
 }, { timestamps: true });
 
 // Hash password before saving
