@@ -30,15 +30,8 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
       
       const { data } = await axios.post(endpoint, formData);
       console.log("Backend response:", data);
-      
-      // Store user data and token
-      localStorage.setItem("userData", JSON.stringify({
-        id: data._id,
-        name: data.name,
-        email: data.email, 
-        token: data.token
-      }));
-
+    
+ 
       console.log('User data saved', localStorage.getItem("userData"));
       
       // Set authorization header for future requests
@@ -47,6 +40,13 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
       // Notify parent or redirect
       if (onAuthSuccess) {
         onAuthSuccess(data);
+        // After successful authentication
+      localStorage.setItem("userData", JSON.stringify({
+        id: data.userId,        // Make sure this exists
+         name: data.name,
+         email: data.email,
+         token: data.token
+}));
       } else {
         navigate("/home");
       }
@@ -180,5 +180,5 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
     </div>
   );
 };
-
+// export {data}
 export default AuthForm;

@@ -1,94 +1,103 @@
-import { useEffect, useState } from "react";
-import HomeNavbar from "../Components/homeNavbar";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import HomeNavbar from '../Components/homeNavbar';
+
+import axios from 'axios';
 
 function Home() {
-  const [userName, setUserName] = useState("");
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
+  const [userName, setUserName] = useState('');
+  const [userPosts, setUserPosts] = useState([]);
+  const [randomQuote, setRandomQuote] = useState('');
+  const navigate = useNavigate();
+ 
+  // Fetch data on component mount
   useEffect(() => {
     // Get user data
-    const userData = JSON.parse(localStorage.getItem("userData"));
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    console.log(userData);
+    console.log("gotten user data")
+    // if (!userData?.id) {
+    //     console.error('No user ID found');
+    //     return; // Exit if no user ID
+    //   }
+   
     if (userData?.name) setUserName(userData.name);
 
-    // Fetch posts
-    const fetchPosts = async () => {
+    // Fetch user's posts
+    const fetchUserPosts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/posts");
-        setPosts(response.data);
+     
+        const userId = localStorage.getItem('userId');
+        console.log(userId)
+      
+        const res = await axios.get(`/api/posts/user/67f45c85bfdf82a9ed4c6016` );
+        console.log("ko ye mi oo")
+        setUserPosts(res.data);
       } catch (err) {
-        setError(err.response?.data?.message || "Failed to load posts");
-      } finally {
-        setLoading(false);
+        console.error('Failed to fetch user posts', err);
       }
     };
 
-    fetchPosts();
+    // Get random quote
+    const quotes = [
+      "The only way to do great work is to love what you do. - Steve Jobs",
+      "Write what should not be forgotten. - Isabel Allende"
+    ];
+    setRandomQuote(quotes[Math.floor(Math.random() * quotes.length)]);
+
+    fetchUserPosts();
   }, []);
 
-  if (loading) return <div className="text-center py-8">Loading posts...</div>;
-  if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100">
+    <div className="min-h-screen bg-green-50">
       <HomeNavbar />
-
+    <div className="welcome mt-4 ml-3">Welcome, <b>{userName}</b></div>
       <div className="container mx-auto px-4 py-8">
-        {/* Welcome Banner */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8 border-l-4 border-green-500">
-          <h2 className="text-3xl font-bold text-green-800">
-            Welcome back, <span className="text-green-600">{userName || "Writer"}</span>!
-          </h2>
-          <p className="text-green-700 mt-2">
-            {posts.length > 0 
-              ? "Check out the latest posts" 
-              : "Be the first to write something!"}
-          </p>
+        {/* Random Quote Section */}
+        <div className="bg-white p-6 rounded-lg shadow mb-8 text-center italic">
+          "{randomQuote}"
         </div>
 
-        {/* Blog Feed */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map((post) => (
-            <PostCard key={post._id} post={post} />
-          ))}
+        {/* Start Writing CTA */}
+        <div className="text-center mb-12">
+          <button 
+            onClick={() => navigate('/create-post')}
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full text-lg transition"
+          >
+            Start Writing
+          </button>
         </div>
-      </div>
-    </div>
-  );
-}
 
-// Separate PostCard component for better organization
-function PostCard({ post }) {
-  return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200">
-      {/* Post image placeholder - replace with actual image if available */}
-      <div className="h-48 bg-green-200"></div>
-      
-      <div className="p-6">
-        <div className="flex items-center mb-3">
-          <div className="w-8 h-8 rounded-full bg-green-300 mr-2 flex items-center justify-center text-white font-bold">
-            {post.author?.name?.charAt(0) || "A"}
+        {/* User's Posts (Horizontal Scroll) */}
+        {userPosts.length > 0 && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold text-green-800 mb-4">Your Recent Posts</h2>
+            <div className="flex overflow-x-auto gap-4 pb-4">
+              {userPosts.map(post => (
+                <div key={post._id} className="flex-shrink-0 w-64 h-32 bg-white rounded-lg shadow p-4">
+                  <h3 className="font-bold text-green-800">{post.title}</h3>
+                  <p className="text-sm text-green-600 line-clamp-2">{post.content}</p>
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {post.tags?.map(tag => (
+                      <span key={tag} className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <span className="text-green-800 font-medium">
-            {post.author?.name || "Anonymous"}
-          </span>
-        </div>
-        
-        <h3 className="text-xl font-bold text-green-900 mb-2">{post.title}</h3>
-        
-        <p className="text-green-700 mb-4 line-clamp-2">
-          {post.content}
-        </p>
-        
-        <div className="flex justify-between items-center">
-          <span className="text-sm text-green-600">
-            {new Date(post.createdAt).toLocaleDateString()}
-          </span>
-          <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">
-            #{post.tags?.[0] || "General"}
-          </span>
+        )}
+
+        {/* Explore All Posts Button */}
+        <div className="text-center">
+          <button
+            onClick={() => navigate('/explore')}
+            className="border-2 border-green-600 text-green-600 hover:bg-green-50 font-medium py-2 px-6 rounded-lg transition"
+          >
+            Explore All Posts →
+          </button>
         </div>
       </div>
     </div>

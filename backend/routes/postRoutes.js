@@ -3,7 +3,7 @@ import protect from "../middleware/authMiddleware.js"; // Import middleware
 import { createPost, getPosts, updatePost, deletePost } from "../controllers/postController.js";
 import Post from "../models/Post.js";
 import { createComment, getComments, updateComment, getCommentById, deleteComment } from "../controllers/commentController.js";
-
+import mongoose from "mongoose";
 const router = express.Router();
 
 // Post routes
@@ -40,6 +40,26 @@ router.delete("/:postId", protect, async (req,res) =>
     } catch (error) {
       res.status(500).json({ message: "Error deleting post", error });
     }});
+
+    // routes/posts.js
+router.get('/user/:userId', async (req, res) => {
+  try {
+    // Validate the userId parameter
+    if (!req.params.userId || !mongoose.Types.ObjectId.isValid(req.params.userId)) {
+      return res.status(400).json({ message: 'Invalid user ID' });
+    }
+console.log(req.params)
+    // Find posts by author ID and populate author details
+    const posts = await Post.find({ author: req.params.userId })
+      .populate('author', 'name email') // Include author name and email
+      .sort({ createdAt: -1 }); // Sort by newest first
+
+    res.json(posts);
+  } catch (err) {
+    console.error('Error fetching user posts:', err);
+    res.status(500).json({ message: 'Server error while fetching posts' });
+  }
+});
     
     // Delete a post
 

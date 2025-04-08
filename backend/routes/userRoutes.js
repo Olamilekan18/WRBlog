@@ -40,8 +40,7 @@ router.post("/register", async (req, res) => {
     // Generate JWT Token
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-    res.status(201).json({ token });
-  } catch (error) {
+    res.json({ token, userId: user._id, name: user.name });  } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -63,8 +62,16 @@ router.post("/login", async (req, res) => {
             return res.status(400).json({ message: "Invalid email or password" });
         }
         // Generate JWT Token
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        res.json({ token });
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+        
+        res.json({ token, user: {
+          _id: user._id,  // <-- Important! Include this
+          name: user.name,
+          email: user.email
+          // other user data...
+        },
+      });
+        // res.json({ token });
         } catch (error) {
             res.status(500).json({ message: "Server error" });
         }

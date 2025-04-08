@@ -5,17 +5,16 @@ import Post from "../models/Post.js";
 // @access  Private
 export const createPost = async (req, res) => {
   try {
-    const { title, content } = req.body;
-    const userId = req.user.id; // From authMiddleware
+    const { title, content, } = req.body;
+    const userId = req.user.id; 
 
-    if (!title || !content) {
-      return res.status(400).json({ message: "Title and content are required" });
+    if (!title || !content ) {
+      return res.status(400).json({ message: "Title, content,  are required" });
     }
-
+   
     const newPost = new Post({
       title,
       content,
-      author: userId,
     });
 
     await newPost.save();
