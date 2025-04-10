@@ -29,6 +29,8 @@ function Home() {
      
         const userId = localStorage.getItem('userId');
         console.log(userId)
+
+       //need to make getting dynamic
       
         const res = await axios.get(`/api/posts/user/67f45c85bfdf82a9ed4c6016` );
         console.log("ko ye mi oo")
@@ -41,7 +43,14 @@ function Home() {
     // Get random quote
     const quotes = [
       "The only way to do great work is to love what you do. - Steve Jobs",
-      "Write what should not be forgotten. - Isabel Allende"
+      "Write what should not be forgotten. - Isabel Allende",
+      "A reader lives a thousand lives before he dies. The man who never reads lives only one - George R.R. Martin",
+      "Until I feared I would lose it, I never loved to read. One does not love breathing. - Harper Lee",
+        "There is no greater agony than bearing an untold story inside you. - Maya Angelou",
+        "In three words I can sum up everything I've learned about life: it goes on. - Dr. Seuss",
+        "Books are a uniquely portable magic. - Stephen King",
+        "Once you learn to read, you will be forever free. - Frederick Douglass",
+        "You can never get a cup of tea large enough or a book long enough to be happy. - C.S. Lewis",
     ];
     setRandomQuote(quotes[Math.floor(Math.random() * quotes.length)]);
 
@@ -49,12 +58,12 @@ function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-green-50">
+    <div className="min-h-screen ">
       <HomeNavbar />
     <div className="welcome mt-4 ml-3">Welcome, <b>{userName}</b></div>
       <div className="container mx-auto px-4 py-8">
         {/* Random Quote Section */}
-        <div className="bg-white p-6 rounded-lg shadow mb-8 text-center italic">
+        <div className=" p-6 rounded-lg shadow mb-8 text-center italic">
           "{randomQuote}"
         </div>
 
@@ -71,10 +80,10 @@ function Home() {
         {/* User's Posts (Horizontal Scroll) */}
         {userPosts.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-2xl font-bold text-green-800 mb-4">Your Recent Posts</h2>
-            <div className="flex overflow-x-auto gap-4 pb-4">
+            <h2 className="text-2xl font-bold justify-center flex text-green-800 mb-4">Your Recent Posts</h2>
+            <div className="flex overflow-x-auto justify-center gap-6 pb-4">
               {userPosts.map(post => (
-                <div key={post._id} className="flex-shrink-0 w-64 h-32 bg-white rounded-lg shadow p-4">
+                <div key={post._id} className="flex-shrink-0 w-64 h-32  rounded-lg shadow p-4">
                   <h3 className="font-bold text-green-800">{post.title}</h3>
                   <p className="text-sm text-green-600 line-clamp-2">{post.content}</p>
                   <div className="mt-2 flex flex-wrap gap-1">

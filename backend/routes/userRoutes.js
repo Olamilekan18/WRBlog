@@ -65,11 +65,12 @@ router.post("/login", async (req, res) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "30d" });
         
         res.json({ token, user: {
-          _id: user._id,  // <-- Important! Include this
+          _id: user._id,  
           name: user.name,
           email: user.email
-          // other user data...
+          
         },
+        // localStorage.setItem("user", JSON.stringify(user)); // Store user data in local storage
       });
         // res.json({ token });
         } catch (error) {
