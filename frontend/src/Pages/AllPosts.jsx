@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import HomeNavbar from "../Components/homeNavbar";
+import { ClipLoader } from "react-spinners";
 
 function AllPosts() {
   const [posts, setPosts] = useState([]);
@@ -23,7 +24,11 @@ function AllPosts() {
     fetchPosts();
   }, []);
 
-  if (loading) return <div className="text-center py-8">Loading posts...</div>;
+  if (loading) return <div className="text-center py-8">  <ClipLoader
+  size={150}
+  aria-label="Loading Spinner"
+  data-testid="loader"
+/></div>;
   if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
 
   return (

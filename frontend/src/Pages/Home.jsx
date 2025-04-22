@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import HomeNavbar from "../Components/homeNavbar";
 import axios from "axios";
+import {ClipLoader} from "react-spinners";
 
 function Home() {
   const [userName, setUserName] = useState("");
@@ -12,6 +13,8 @@ function Home() {
   useEffect(() => {
     // Get user data
     const userData = JSON.parse(localStorage.getItem("userData"));
+    console.log(userData)
+
     if (userData?.name) setUserName(userData.name);
 
     // Fetch posts
@@ -29,7 +32,11 @@ function Home() {
     fetchPosts();
   }, []);
 
-  if (loading) return <div className="text-center py-8">Loading posts...</div>;
+  if (loading) return <div className="text-center py-8">  <ClipLoader
+  size={150}
+  aria-label="Loading Spinner"
+  data-testid="loader"
+/></div>;
   if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
 
   return (
@@ -61,6 +68,7 @@ function Home() {
           <div className="text-center mt-8">
             <Link
               to="/all-posts"
+              // onClick={setLoading(true)}
               className="inline-block bg-green-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-700 transition duration-200"
             >
               See More...
