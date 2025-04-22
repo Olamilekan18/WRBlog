@@ -40,12 +40,12 @@ function Home() {
   if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100">
+    <div className="min-h-screen ">
       <HomeNavbar />
 
       <div className="container mx-auto px-4 py-8">
         {/* Welcome Banner */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8 border-l-4 border-green-500">
+        <div className=" bg-white rounded-lg shadow-md p-6 mb-8 border-l-4 border-green-500">
           <h2 className="text-3xl font-bold text-green-800">
             Welcome back, <span className="text-green-600">{userName || "Writer"}</span>!
           </h2>

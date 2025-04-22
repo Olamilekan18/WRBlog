@@ -32,7 +32,7 @@ function AllPosts() {
   if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100">
+    <div className="min-h-screen ">
       <HomeNavbar />
 
       <div className="container mx-auto px-4 py-8">
