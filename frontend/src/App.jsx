@@ -13,6 +13,7 @@ import ForgotPassword from "./Pages/ForgotPassword.jsx";
 import ResetPassword from "./Pages/ResetPassword.jsx";
 import Home from "./Pages/Home.jsx";
 import "./App.css"; 
+import AllPosts from "./Pages/AllPosts.jsx";
 
 function App() {
   return (
@@ -53,6 +54,8 @@ function App() {
             {/* <HomeNavbar/> */}
             <Home/>
             </>} /> 
+            <Route path = 'all-posts' element={<AllPosts/>}/>
+            
 
           </Routes>
         </div>
