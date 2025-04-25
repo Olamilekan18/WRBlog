@@ -10,12 +10,12 @@ import commentRoutes from './routes/commentRoutes.js'
 import subscribeRoutes from './routes/subscribeRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 
-dotenv.config(); // Load environment variables
-connectDB(); // Connect to MongoDB
+dotenv.config(); 
+connectDB(); 
 
 
 const app = express();
-app.use(cors()); // Enable CORS for all routes
+app.use(cors()); 
 app.use(express.json());
 
 app.use('/api/auth', authRoutes)

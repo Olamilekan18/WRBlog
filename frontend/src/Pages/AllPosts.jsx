@@ -50,23 +50,38 @@ function AllPosts() {
 
 // Reuse the PostCard component
 function PostCard({ post }) {
-  return (
-    <div className="bg-white cursor-pointer rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200">
-      <div className="h-48 bg-green-200"></div>
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-green-900 mb-2">{post.title}</h3>
-        <p className="text-green-700 mb-4 line-clamp-2">{post.content}</p>
-        <div className="flex justify-between items-center">
-          <span className="text-sm text-green-600">
-            {new Date(post.createdAt).toLocaleDateString()}
-          </span>
-          <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">
-            #{post.tags?.[0] || "General"}
-          </span>
+    return (
+      <div className="bg-white cursor-pointer rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200">
+        {/* Post image placeholder - replace with actual image if available */}
+        <div className="h-48 bg-green-200"></div>
+        
+        <div className="p-6">
+          <div className="flex items-center mb-3">
+            <div className="w-8 h-8 rounded-full bg-green-300 mr-2 flex items-center justify-center text-white font-bold">
+              {post.author?.name?.charAt(0) || "A"}
+            </div>
+            <span className="text-green-800 font-medium">
+              {post.author?.name || "Anonymous"}
+            </span>
+          </div>
+          
+          <h3 className="text-xl font-bold text-green-900 mb-2">{post.title}</h3>
+          
+          <p className="text-green-700 mb-4 line-clamp-2">
+            {post.content}
+          </p>
+          
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-green-600">
+              {new Date(post.createdAt).toLocaleDateString()}
+            </span>
+            <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">
+              #{post.tags?.[0] || "General"}
+            </span>
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
-
+    );
+  }
+  
 export default AllPosts;

@@ -216,7 +216,7 @@ export const updateComment = async (req, res) => {
         const { content } = req.body;
         const userId = req.user.id;
 
-        // Validate IDs
+
         if (!mongoose.Types.ObjectId.isValid(postId) || 
             !mongoose.Types.ObjectId.isValid(commentId)) {
             return res.status(400).json({ 

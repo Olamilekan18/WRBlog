@@ -14,7 +14,7 @@ const postSchema = new mongoose.Schema(
     // likes: [{ type: ObjectId, ref: "User" }],
     // dislikes: [{ type: ObjectId, ref: "User" }],
     tags: [{ type: String }],
-    // views: { type: Number, default: 0 },
+    views: { type: Number, default: 0 },
   },
   { timestamps: true } // Auto-adds createdAt & updatedAt
 );

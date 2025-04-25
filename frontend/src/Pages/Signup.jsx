@@ -27,9 +27,10 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
       const endpoint = type === "signup" 
         ? "/api/users/register" 
         : "/api/users/login";
+        setIsLoading(true);
       
       const { data } = await axios.post(endpoint, formData);
-      console.log("Backend response:", data);
+      // console.log("Backend response:", data);
       
       // Store user data and token
       localStorage.setItem("userData", JSON.stringify({
@@ -47,6 +48,7 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
       // Notify parent or redirect
       if (onAuthSuccess) {
         onAuthSuccess(data);
+        setIsLoading(false)
       } else {
         navigate("/home");
       }
@@ -60,6 +62,8 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
       setIsLoading(false);
     }
   };
+  if (isLoading) return <div className="text-center py-8">Loading...</div>;
+
 
   return (
     <div className={`min-h-screen flex items-center justify-center ${isDark ? "bg-gray-900 text-white" : "bg-gray-100 text-green-900"}`}>

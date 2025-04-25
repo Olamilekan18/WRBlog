@@ -56,7 +56,7 @@ const { isDark, toggle } = useDarkMode();
           </a>
         </li> */}
         <li>
-          <a href="#" className="border-b-2 border-transparent hover:border-green-500 transition">
+          <a href="/all-posts" className="border-b-2 border-transparent hover:border-green-500 transition">
             View Blogs
           </a>
         </li>
