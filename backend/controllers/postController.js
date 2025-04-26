@@ -1,20 +1,20 @@
 import Post from "../models/Post.js";
 
-// @desc    Create a new post
 // @route   POST /api/posts
 // @access  Private
 export const createPost = async (req, res) => {
   try {
-    const { title, content } = req.body;
-    const userId = req.user.id; // From authMiddleware
+    const { title, content, tags } = req.body;
+    const userId = req.user.id; 
 
-    if (!title || !content) {
+    if (!title || !content ) {
       return res.status(400).json({ message: "Title and content are required" });
     }
 
     const newPost = new Post({
       title,
       content,
+      tags,
       author: userId,
     });
 
@@ -25,12 +25,9 @@ export const createPost = async (req, res) => {
   }
 };
 
-// @desc    Get all posts
-// @route   GET /api/posts
-// @access  Public
 export const getPosts = async (req, res) => {
   try {
-    const posts = await Post.find().populate("author", "name email");
+    const posts = await Post.find().populate("author", "name email").select("title content tags author createdAt updatedAt").sort({ createdAt: -1 });
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ message: "Error fetching posts", error });
@@ -45,13 +42,9 @@ export const updatePost = async (req, res) => {
     try {
       const post = await Post.findById(id);
       if (!post) return res.status(404).json({ message: "Post not found" });
-  
-      // Authorization check
       if (post.author.toString() !== req.user.id) {
         return res.status(401).json({ message: "You are not authorized to update this post" });
       }
-  
-      // Update post
       post.title = title || post.title;
       post.content = content || post.content;
       

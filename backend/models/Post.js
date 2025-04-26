@@ -10,13 +10,13 @@ const postSchema = new mongoose.Schema(
     },
     // _id: id,
     // status : "published" | "draft",
-    // comments: [{ type: ObjectId, ref: "Comment" }],
-    // likes: [{ type: ObjectId, ref: "User" }],
+    comments: [{ type: String, ref: "Comment" }],
+    likes: { type: Number, ref: "User" },
     // dislikes: [{ type: ObjectId, ref: "User" }],
-    tags: [{ type: String }],
+    tags: { type: String },
     views: { type: Number, default: 0 },
   },
-  { timestamps: true } // Auto-adds createdAt & updatedAt
+  { timestamps: true } 
 );
 
 const Post = mongoose.model("Post", postSchema);

@@ -10,6 +10,7 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
   useEffect(() => {
     // Get user data
     const userData = JSON.parse(localStorage.getItem("userData"));
@@ -68,7 +69,7 @@ function Home() {
           <div className="text-center mt-8">
             <Link
               to="/all-posts"
-              // onClick={setLoading(true)}
+             
               className="inline-block bg-green-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-700 transition duration-200"
             >
               See More...
