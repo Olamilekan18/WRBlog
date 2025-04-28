@@ -37,6 +37,8 @@ function Home() {
   size={150}
   aria-label="Loading Spinner"
   data-testid="loader"
+  color="#36d7b7"
+  display = "block"
 /></div>;
   if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
 

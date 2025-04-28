@@ -24,10 +24,21 @@ function AllPosts() {
     fetchPosts();
   }, []);
 
+  function randomAvavtar(){
+    const avatars = [
+      "https://img.freepik.com/free-photo/front-view-woman-with-book-collage_23-2150149037.jpg?semt=ais_hybrid&w=740",
+      "https://www.shutterstock.com/image-vector/woman-holds-open-book-studies-260nw-2200880419.jpg",
+      "https://static.vecteezy.com/system/resources/previews/008/088/774/non_2x/girl-lies-on-on-stack-of-big-books-with-open-book-in-her-hands-literature-fan-concept-illustration-of-earning-distance-studying-young-woman-study-in-library-literary-club-illustration-vector.jpg",
+    ]
+    
+  }
+
   if (loading) return <div className="text-center py-8">  <ClipLoader
   size={150}
   aria-label="Loading Spinner"
   data-testid="loader"
+  color="#36d7b7"
+  display = "block"
 /></div>;
   if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
 
@@ -53,7 +64,10 @@ function PostCard({ post }) {
     return (
       <div className="bg-white cursor-pointer rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200">
         {/* Post image placeholder - replace with actual image if available */}
-        <div className="h-48 bg-green-200"></div>
+        <div className="h-48 bg-green-200">
+          {/* Post image */}
+          <img src="https://img.freepik.com/free-photo/front-view-woman-with-book-collage_23-2150149037.jpg?semt=ais_hybrid&w=740" alt={post.title} className="w-full h-full object-cover" />
+        </div>
         
         <div className="p-6">
           <div className="flex items-center mb-3">

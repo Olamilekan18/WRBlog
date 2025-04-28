@@ -14,6 +14,7 @@ import ResetPassword from "./Pages/ResetPassword.jsx";
 import Home from "./Pages/Home.jsx";
 import "./App.css"; 
 import AllPosts from "./Pages/AllPosts.jsx";
+import Editor from "./Pages/Editor.jsx";
 
 function App() {
   return (
@@ -55,6 +56,21 @@ function App() {
             <Home/>
             </>} /> 
             <Route path = 'all-posts' element={<AllPosts/>}/>
+
+            {/* Editor Route */}
+            <Route path="/editor" element={<Editor />} />
+
+            {/* 404 Not Found Route */}
+            <Route
+              path="*"
+              element={
+                <div className="flex items-center justify-center h-screen">
+                  <h1 className="text-4xl font-bold text-gray-800 dark:text-white">
+                    404 - Page Not Found
+                  </h1>
+                </div>
+              }
+            />
             
 
           </Routes>
