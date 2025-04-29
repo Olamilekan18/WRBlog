@@ -61,6 +61,8 @@ function AllPosts() {
 
 // Reuse the PostCard component
 function PostCard({ post }) {
+  
+  const [expanded, setExpanded] = useState(false)
     return (
       <div className="bg-white cursor-pointer rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200">
         {/* Post image placeholder - replace with actual image if available */}
@@ -81,10 +83,30 @@ function PostCard({ post }) {
           
           <h3 className="text-xl font-bold text-green-900 mb-2">{post.title}</h3>
           
-          <p className="text-green-700 mb-4 line-clamp-2">
-            {post.content}
-          </p>
-          
+          {/* <p className="text-green-700 mb-4 line-clamp-2">
+          dangerouslySetInnerHTML={{ __html: post.content }}
+          </p> */}
+            {/* Truncated or Full Content */}
+        <div
+          className="text-green-700 mb-4"
+          dangerouslySetInnerHTML={{
+            __html: expanded
+              ? post.content // Show full content if expanded
+              : post.content.slice(0, 100) + (post.content.length > 100 ? "..." : ""), // Truncate content
+          }}>
+            </div>          
+
+            {/* See More / See Less Button */}
+        {post.content.length > 200 && (
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="text-blue-600 hover:underline"
+          >
+            {expanded ? "See Less" : "See More"}
+          </button>
+        )}
+
+
           <div className="flex justify-between items-center">
             <span className="text-sm text-green-600">
               {new Date(post.createdAt).toLocaleDateString()}

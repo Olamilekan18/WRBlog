@@ -1,11 +1,14 @@
 import React, { useState, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import sanitizeHtml from 'sanitize-html';
+import { useNavigate } from 'react-router-dom';
 
 export default function Editor() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const quillRef = useRef();
+  const navigate = useNavigate()
 
 //   const imageHandler = (e) => {
 //     const editor = quillRef.current.getEditor();
@@ -52,9 +55,44 @@ export default function Editor() {
     'color', 'background', 'list', 'bullet', 'align', 'link', 'image', 'video',
   ];
 
-  const handleSubmit = () => {
-    console.log({ title, content });
-  };
+  const handleSubmit = async () => {
+    const postData = {
+        title,
+       content: sanitizeHtml(content)
+      };
+      console.log(postData);
+      const userData = JSON.parse(localStorage.getItem("userData"));
+      console.log(userData)
+      const token = userData.token; // Get the token from local storage or state
+      if (!token) {
+        console.error('No token found. Please log in.');
+        return;
+      }
+      try {
+        const res = await fetch('http://localhost:5000/api/posts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, // Add the token to the request
+            },
+            body: JSON.stringify(postData), // Send the post data as JSON
+        });
+
+        // Handle the response
+        if (res.ok) {
+            const result = await res.json();
+            console.log('Post submitted successfully:', result);
+            navigate("/all-posts")
+            // Optionally, handle any success logic (e.g., redirect, reset form, etc.)
+        } else {
+            console.error('Failed to submit post');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+
+    }
+  
 
   return (
     <div className="max-w-4xl mx-auto p-4">
