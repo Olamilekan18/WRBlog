@@ -83,9 +83,6 @@ function PostCard({ post }) {
           
           <h3 className="text-xl font-bold text-green-900 mb-2">{post.title}</h3>
           
-          {/* <p className="text-green-700 mb-4 line-clamp-2">
-          dangerouslySetInnerHTML={{ __html: post.content }}
-          </p> */}
             {/* Truncated or Full Content */}
         <div
           className="text-green-700 mb-4"
@@ -97,7 +94,7 @@ function PostCard({ post }) {
             </div>          
 
             {/* See More / See Less Button */}
-        {post.content.length > 200 && (
+        {post.content.length > 100 && (
           <button
             onClick={() => setExpanded(!expanded)}
             className="text-blue-600 hover:underline"

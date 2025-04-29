@@ -3,10 +3,15 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import sanitizeHtml from 'sanitize-html';
 import { useNavigate } from 'react-router-dom';
+import { ClipLoader } from 'react-spinners';
+import HomeNavbar from '../Components/homeNavbar.jsx';
 
 export default function Editor() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [error,setError] = useState(false)
+  const [loading,setLoading] = useState(false)
+
   const quillRef = useRef();
   const navigate = useNavigate()
 
@@ -32,6 +37,8 @@ export default function Editor() {
 //       }
 //     };
 //   }
+
+
   const modules = {
     toolbar: {
       container: [
@@ -49,6 +56,7 @@ export default function Editor() {
       },
     },
   };
+  
 
   const formats = [
     'header', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block',
@@ -56,6 +64,7 @@ export default function Editor() {
   ];
 
   const handleSubmit = async () => {
+    setLoading(true)
     const postData = {
         title,
        content: sanitizeHtml(content)
@@ -63,8 +72,9 @@ export default function Editor() {
       console.log(postData);
       const userData = JSON.parse(localStorage.getItem("userData"));
       console.log(userData)
-      const token = userData.token; // Get the token from local storage or state
+      const token = userData.token; 
       if (!token) {
+        setError(true)
         console.error('No token found. Please log in.');
         return;
       }
@@ -73,35 +83,51 @@ export default function Editor() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, // Add the token to the request
+                'Authorization': `Bearer ${token}`, 
             },
-            body: JSON.stringify(postData), // Send the post data as JSON
+            body: JSON.stringify(postData), 
         });
 
         // Handle the response
         if (res.ok) {
             const result = await res.json();
             console.log('Post submitted successfully:', result);
+            setLoading(false)
             navigate("/all-posts")
-            // Optionally, handle any success logic (e.g., redirect, reset form, etc.)
+        } else if (res.status === 401) {
+            console.error('Unauthorized. Please log in again.');
+            setLoading(false)
+            // Optionally, redirect to login page or show a message
         } else {
             console.error('Failed to submit post');
+            setLoading(false)
         }
     } catch (error) {
+      setError(true)
+      setLoading(false)
         console.error('Error:', error);
     }
+
+    if (loading) return <div className="text-center py-8">  <ClipLoader
+  size={150}
+  aria-label="Loading Spinner"
+  data-testid="loader"
+  color="#36d7b7"
+  display = "block"
+/></div>;
 
     }
   
 
   return (
     <div className="max-w-4xl mx-auto p-4">
+      <HomeNavbar className = "mt-4"/>
       <input
         type="text"
         placeholder="Enter Post Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="w-full mb-4 p-2 border rounded"
+        className="w-full mb-4 mt-4 p-2 border rounded"
       />
 
       <ReactQuill
@@ -115,11 +141,11 @@ export default function Editor() {
 
       <button
         onClick={handleSubmit}
-        className="mt-6 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+        className="mt-6 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition cursor-pointer"
       >
        Post Blog
       </button>
-
+{error && <p className='text-red-500'>Please login to post</p>}
       {/* Fix: Editor height */}
       <style>
         {`
