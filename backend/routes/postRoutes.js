@@ -1,6 +1,6 @@
 import express from "express";
 import protect from "../middleware/authMiddleware.js"; // Import middleware
-import { createPost, getPosts, updatePost, deletePost } from "../controllers/postController.js";
+import { createPost, getPosts, getPostsByUserId, updatePost, deletePost } from "../controllers/postController.js";
 import Post from "../models/Post.js";
 import { createComment, getComments, updateComment, getCommentById, deleteComment } from "../controllers/commentController.js";
 
@@ -9,6 +9,7 @@ const router = express.Router();
 // Post routes
 router.get("/", getPosts); // Get all posts
 router.post("/", protect, createPost); // Create a new post
+router.get("/user/:userId", getPostsByUserId)
 router.get("/:postId", async (req, res) => { // Get a single post by ID
   try {
     const post = await Post.findById(req.params.postId);

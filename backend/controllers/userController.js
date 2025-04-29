@@ -67,9 +67,7 @@ export const getCurrentUserProfile = async (req, res) => {
     }
   };
 
-// @desc    Update user profile
-// @route   PUT /api/users/profile
-// @access  Private
+
 
 
 // @desc    Update user profile

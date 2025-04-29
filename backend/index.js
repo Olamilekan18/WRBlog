@@ -6,7 +6,6 @@ import connectDB from "./config/db.js"; // Import your database connection funct
 import postRoutes from "./routes/postRoutes.js";
 import userRoutes from './routes/userRoutes.js'
 import commentRoutes from './routes/commentRoutes.js'
-// import subscribeRoutes from './routes/subscribeRoutes.js'
 import subscribeRoutes from './routes/subscribeRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 
@@ -17,12 +16,28 @@ connectDB();
 const app = express();
 app.use(cors()); 
 app.use(express.json());
+// Middleware to serve static files from the 'uploads' folder
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// File upload route
+// app.post('/api/upload', upload.single('image'), (req, res) => {
+//     // Check if the file was uploaded successfully
+//     if (req.file) {
+//         const fileUrl = `/uploads/${req.file.filename}`;
+//         res.status(200).json({ message: 'File uploaded successfully', url: fileUrl });
+//     } else {
+//         res.status(400).json({ message: 'File upload failed' });
+//     }
+// });
+
+
 
 app.use('/api/auth', authRoutes)
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/subscribe', subscribeRoutes)
+
 
 
 

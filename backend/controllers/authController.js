@@ -1,11 +1,8 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
-// const crypto = require("crypto");
 import crypto from "crypto";
-// const nodemailer = require("nodemailer");
 import nodemailer from "nodemailer";
-// @desc    Register a new user
-// @route   POST /api/auth/register
+
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -30,7 +27,6 @@ export const registerUser = async (req, res) => {
 };
 
 // @desc    Login user
-// @route   POST /api/auth/login
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -48,11 +44,6 @@ export const loginUser = async (req, res) => {
       expiresIn: "30d",
     });
 
-    // Generate token
-    // const token = user.generateAuthToken();
-
-
-    res.json({ token, userId: user._id, name: user.name });
     res.json({ token, userId: user._id, name: user.name });
 
   } catch (error) {
@@ -64,7 +55,7 @@ export const forgotPassword = async (req, res) => {
   try {
       const { email } = req.body;
       
-      // 1. Check if user exists
+
       const user = await User.findOne({ email });
       if (!user) {
           return res.status(404).json({ message: 'User not found' });

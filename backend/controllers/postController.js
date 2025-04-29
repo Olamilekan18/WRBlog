@@ -34,6 +34,22 @@ export const getPosts = async (req, res) => {
   }
 };
 
+export const getPostsByUserId = async (req, res) => {
+  try {
+    const userId = req.params.id; 
+    // const userId = req.user.id; 
+    const posts = await Post.find({ author: userId }) // Find posts by author ID
+      .populate("author", "name email") // Populate author details
+      .select("title content tags author createdAt updatedAt") // Select specific fields to return
+      .sort({ createdAt: -1 }); // Sort by creation date
+
+    res.status(200).json(posts); // Return the posts
+  }
+  catch (error) {
+    res.status(500).json({ message: "Error fetching posts", error }); // Handle errors
+  }
+}
+
  
 export const updatePost = async (req, res) => {
     const { id } = req.params;
