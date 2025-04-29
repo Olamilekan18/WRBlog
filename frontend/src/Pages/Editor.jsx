@@ -5,6 +5,8 @@ import sanitizeHtml from 'sanitize-html';
 import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import HomeNavbar from '../Components/homeNavbar.jsx';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Editor() {
   const [title, setTitle] = useState('');
@@ -76,6 +78,7 @@ export default function Editor() {
       if (!token) {
         setError(true)
         console.error('No token found. Please log in.');
+        toast.error("No token found,l please log in again")
         return;
       }
       try {
@@ -121,6 +124,8 @@ export default function Editor() {
 
   return (
     <div className="max-w-4xl mx-auto p-4">
+      <ToastContainer/>
+      
       <HomeNavbar className = "mt-4"/>
       <input
         type="text"
