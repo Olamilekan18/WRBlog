@@ -1,15 +1,6 @@
 import User from "../models/userModel.js";
-
-// import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 
-// @desc    Get user profile
-// @route   GET /api/users/:id
-// @access  Public
-
-// @desc    Get all users
-// @route   GET /api/users
-// @access  Private/Admin (you might want to protect this route)
 
 export const getAllUsers = async (req, res) => {
     try {
@@ -33,8 +24,7 @@ export const getAllUsers = async (req, res) => {
 // controllers/userController.js
 export const getUserProfile = async (req, res) => {
     try {
-      const user = await User.findById(req.params.id); // Note: using req.params.id
-      
+      const user = await User.findById(req.params.id); 
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
@@ -48,10 +38,8 @@ export const getUserProfile = async (req, res) => {
     }
   };
 
-  // controllers/userController.js
 export const getCurrentUserProfile = async (req, res) => {
     try {
-      // req.user is set by your protect middleware
       const user = await User.findById(req.user._id).select('-password');
       
       if (!user) {

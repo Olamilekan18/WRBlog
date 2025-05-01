@@ -15,12 +15,14 @@ function Home() {
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("userData"));
     console.log(userData)
+    const id = userData.userId
+    console.log(id)
     if (userData?.name) setUserName(userData.name);
 
     // Fetch posts by user ID
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/posts?userId=${userData.id}`, {
+        const response = await axios.get(`http://localhost:5000/api/posts/user/${id}`, {
           headers: {
             Authorization: `Bearer ${userData.token}`, // Pass the token for authentication
           },
@@ -104,7 +106,10 @@ function PostCard({ post }) {
   return (
     <div className="bg-white cursor-pointer rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200">
       {/* Post image placeholder - replace with actual image if available */}
-      <div className="h-48 bg-green-200"></div>
+      <div className="h-48 bg-green-200">
+          {/* Post image */}
+          <img src="https://img.freepik.com/free-photo/front-view-woman-with-book-collage_23-2150149037.jpg?semt=ais_hybrid&w=740" alt={post.title} className="w-full h-full object-cover" />
+        </div>
 
       <div className="p-6">
         <div className="flex items-center mb-3">

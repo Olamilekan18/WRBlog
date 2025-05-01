@@ -41,7 +41,7 @@ router.post("/register", async (req, res) => {
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
     res.status(201).json({ 
-      id: newUser._id,
+      userId: newUser._id,
       name: newUser.name,
       email: newUser.email,
       token: token
@@ -52,7 +52,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// User Login (Signin)
+
 
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
@@ -69,9 +69,9 @@ router.post("/login", async (req, res) => {
             return res.status(400).json({ message: "Invalid email or password" });
         }
         // Generate JWT Token
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "30d" });
         res.json({ 
-          id: user._id,
+          userId: user._id,
           name: user.name,
           email: user.email,
           token: token
