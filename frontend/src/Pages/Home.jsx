@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-// import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import HomeNavbar from "../Components/homeNavbar";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
-import { useNavigate } from "react-router-dom";
-function Home() {
+import { ToastContainer, toast } from "react-toastify";
 
+function Home() {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [posts, setPosts] = useState([]);
@@ -14,9 +14,8 @@ function Home() {
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("userData"));
-    console.log(userData)
-    const id = userData.userId
-    console.log(id)
+    const id = userData.userId;
+    console.log(id);
     if (userData?.name) setUserName(userData.name);
 
     // Fetch posts by user ID
@@ -38,6 +37,30 @@ function Home() {
     fetchPosts();
   }, []);
 
+  const handleDelete = async (postId) => {
+    setLoading(true)
+    const userData = JSON.parse(localStorage.getItem("userData"));
+
+    try {
+      await axios.delete(`http://localhost:5000/api/posts/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${userData.token}`,
+        },
+      });
+      setPosts(posts.filter((post) => post._id !== postId)); // Remove the deleted post from the state
+      setLoading(false)
+      toast.success("Post deleted successfully!");
+    } catch (error) {
+      console.log("something went wrong")
+      toast.error(error.response?.data?.message || "Failed to delete post");
+      setLoading(false)
+    }
+  };
+
+  const handleEdit = (post) => {
+    navigate(`/editor/${post._id}`, { state: { post } }); // Navigate to the editor page with the post data
+  };
+
   if (loading)
     return (
       <div className="text-center py-8">
@@ -49,6 +72,7 @@ function Home() {
 
   return (
     <div className="min-h-screen">
+      <ToastContainer />
       <HomeNavbar />
 
       <div className="container mx-auto px-4 py-8">
@@ -67,8 +91,13 @@ function Home() {
         {/* Blog Feed */}
         {posts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.slice(0,6).map((post) => (
-              <PostCard key={post._id} post={post} />
+            {posts.slice(0, 6).map((post) => (
+              <PostCard
+                key={post._id}
+                post={post}
+                onDelete={handleDelete} // Pass handleDelete as onDelete
+                onEdit={handleEdit} // Pass handleEdit as onEdit
+              />
             ))}
           </div>
         ) : (
@@ -76,7 +105,7 @@ function Home() {
             <p>You don't have any posts yet. Start writing your first post!</p>
           </div>
         )}
-<div className="flex   justify-center items-center mt-4">
+        <div className="flex   justify-center items-center mt-4">
   <button
   onClick={() => navigate("/all-posts")} // Navigate to the /all-posts route
   className="px-4 py-2 bg-green-500 cursor-pointer mt- 3 text-white rounded-lg hover:bg-green-600"
@@ -92,24 +121,24 @@ function Home() {
 </button>
 
 </div>
-
-        
       </div>
     </div>
   );
 }
 
 // Separate PostCard component for better organization
-function PostCard({ post }) {
+function PostCard({ post, onDelete, onEdit }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
     <div className="bg-white cursor-pointer rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200">
-      {/* Post image placeholder - replace with actual image if available */}
       <div className="h-48 bg-green-200">
-          {/* Post image */}
-          <img src="https://img.freepik.com/free-photo/front-view-woman-with-book-collage_23-2150149037.jpg?semt=ais_hybrid&w=740" alt={post.title} className="w-full h-full object-cover" />
-        </div>
+        <img
+          src="https://img.freepik.com/free-photo/front-view-woman-with-book-collage_23-2150149037.jpg?semt=ais_hybrid&w=740"
+          alt={post.title}
+          className="w-full h-full object-cover"
+        />
+      </div>
 
       <div className="p-6">
         <div className="flex items-center mb-3">
@@ -121,17 +150,15 @@ function PostCard({ post }) {
 
         <h3 className="text-xl font-bold text-green-900 mb-2">{post.title}</h3>
 
-        {/* Render HTML content */}
         <div
           className="text-green-700 mb-4"
           dangerouslySetInnerHTML={{
             __html: expanded
-              ? post.content // Show full content if expanded
-              : post.content.slice(0, 100) + (post.content.length > 100 ? "..." : ""), // Truncate content
+              ? post.content
+              : post.content.slice(0, 100) + (post.content.length > 100 ? "..." : ""),
           }}
         ></div>
 
-        {/* See More / See Less Button */}
         {post.content.length > 100 && (
           <button
             onClick={() => setExpanded(!expanded)}
@@ -140,7 +167,6 @@ function PostCard({ post }) {
             {expanded ? "See Less" : "See More"}
           </button>
         )}
-
         <div className="flex justify-between items-center">
           <span className="text-sm text-green-600">
             {new Date(post.createdAt).toLocaleDateString()}
@@ -148,6 +174,21 @@ function PostCard({ post }) {
           <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">
             #{post.tags?.[0] || "General"}
           </span>
+          </div>
+
+        <div className="flex justify-between items-center mt-4">
+          <button
+            onClick={() => onEdit(post)}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => onDelete(post._id)}
+            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>

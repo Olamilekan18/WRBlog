@@ -59,7 +59,7 @@ function App() {
 
             {/* Editor Route */}
             <Route path="/editor" element={<Editor />} />
-
+            <Route path="/editor/:postId" element={<Editor />} />
             {/* 404 Not Found Route */}
             <Route
               path="*"

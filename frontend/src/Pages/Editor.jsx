@@ -1,21 +1,25 @@
 import React, { useState, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import sanitizeHtml from 'sanitize-html';
+// import sanitizeHtml from 'sanitize-html';
 import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import HomeNavbar from '../Components/homeNavbar.jsx';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useLocation } from 'react-router-dom';
 
 export default function Editor() {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const location = useLocation()
+  const post = location.state?.post||null
+  const [title, setTitle] = useState(post?.title||" ");
+  const [content, setContent] = useState(post?.content | "");
   const [error,setError] = useState(false)
   const [loading,setLoading] = useState(false)
 
   const quillRef = useRef();
   const navigate = useNavigate()
+  // const post = location.state?.post||null
 
 //   const imageHandler = (e) => {
 //     const editor = quillRef.current.getEditor();
@@ -69,7 +73,7 @@ export default function Editor() {
     setLoading(true)
     const postData = {
         title,
-       content: sanitizeHtml(content)
+       content
       };
       console.log(postData);
       const userData = JSON.parse(localStorage.getItem("userData"));
@@ -82,13 +86,19 @@ export default function Editor() {
         return;
       }
       try {
-        const res = await fetch('http://localhost:5000/api/posts', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, 
-            },
-            body: JSON.stringify(postData), 
+        const url = post
+        ? `http://localhost:5000/api/posts/${post._id}` // Update existing post
+        : "http://localhost:5000/api/posts"; // Create new post
+
+        const method = post ? "PUT" : "POST"; // Use PUT for editing, POST for creating
+
+        const res = await fetch(url, {
+          method,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(postData),
         });
 
         // Handle the response
@@ -96,7 +106,7 @@ export default function Editor() {
             const result = await res.json();
             console.log('Post submitted successfully:', result);
             setLoading(false)
-            navigate("/all-posts")
+            navigate("/home")
         } else if (res.status === 401) {
             console.error('Unauthorized. Please log in again.');
             setLoading(false)
@@ -148,7 +158,7 @@ export default function Editor() {
         onClick={handleSubmit}
         className="mt-6 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition cursor-pointer"
       >
-       Post Blog
+      {post? "Update Post"  : "Post Blog"}
       </button>
 {error && <p className='text-red-500'>Please login to post</p>}
       {/* Fix: Editor height */}

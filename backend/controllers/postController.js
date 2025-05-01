@@ -53,11 +53,11 @@ if(!posts){
 
  
 export const updatePost = async (req, res) => {
-    const { id } = req.params;
+    // const { id } = req.params;
     const { title, content } = req.body;
   
     try {
-      const post = await Post.findById(id);
+      const post = await Post.findById(req.params.postId);
       if (!post) return res.status(404).json({ message: "Post not found" });
       if (post.author.toString() !== req.user.id) {
         return res.status(401).json({ message: "You are not authorized to update this post" });

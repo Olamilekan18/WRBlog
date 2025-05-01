@@ -101,5 +101,4 @@ router.post("/login", async (req, res) => {
           router.get('/:id', getUserProfile);
           router.put('/profile', protect, updateUserProfile);
           router.patch('/profile/upload', protect, upload.single("image"), updateProfilePicture);
-          // router.post('/profile/upload', protect, upload.single("image"), updateProfilePicture)
 export default router;
