@@ -1,19 +1,17 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-// import sanitizeHtml from 'sanitize-html';
 import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import HomeNavbar from '../Components/homeNavbar.jsx';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useLocation } from 'react-router-dom';
+
 
 export default function Editor() {
-  const location = useLocation()
   const post = location.state?.post||null
   const [title, setTitle] = useState(post?.title||" ");
-  const [content, setContent] = useState(post?.content | "");
+  const [content, setContent] = useState(post?.content || "");
   const [error,setError] = useState(false)
   const [loading,setLoading] = useState(false)
 
@@ -21,47 +19,56 @@ export default function Editor() {
   const navigate = useNavigate()
   // const post = location.state?.post||null
 
-//   const imageHandler = (e) => {
-//     const editor = quillRef.current.getEditor();
-//     console.log(editor)
-//     const input = document.createElement("input");
-//     input.setAttribute("type", "file");
-//     input.setAttribute("accept", "image/*");
-//     input.click();
+  const imageHandler = () => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
 
-//     input.onchange = async () => {
-//       const file = input.files[0];
-//       if (/^image\//.test(file.type)) {
-//         console.log(file);
-//         const formData = new FormData();
-//         formData.append("image", file);
-//         const res = await ImageUpload(formData); // upload data into server or aws or cloudinary
-//         const url = res?.data?.url;
-//         editor.insertEmbed(editor.getSelection(), "image", url);
-//       } else {
-//         ErrorToast('You could only upload images.');
-//       }
-//     };
-//   }
+    input.onchange = async () => {
+      const file = input.files[0];
+      if (file) {
+        const formData = new FormData();
+        formData.append("image", file);
 
+        try {
+          const res = await fetch("http://localhost:5000/api/upload", {
+            method: "POST",
+            body: formData,
+          });
+          const data = await res.json();
+          const imageUrl = data.imageUrl;
 
-  const modules = {
-    toolbar: {
-      container: [
-        [{ header: [1, 2, 3, false] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ color: [] }, { background: [] }],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        [{ align: [] }],
-        ['blockquote', 'code-block'],
-        ['link', 'image', 'video'],
-        ['clean'],
-      ],
-      handlers: {
-        // image: imageHandler,
+          const editor = quillRef.current.getEditor();
+          const range = editor.getSelection(true);
+          editor.insertEmbed(range.index, "image", imageUrl);
+        } catch (err) {
+          console.error("Upload failed", err);
+        }
+      }
+    };
+  }
+
+  const modules = useMemo(
+    () => ({
+      toolbar: {
+        container: [
+          [{ header: [1, 2, 3, false] }],
+          ["bold", "italic", "underline", "strike"],
+          [{ color: [] }, { background: [] }],
+          [{ list: "ordered" }, { list: "bullet" }],
+          [{ align: [] }],
+          ["blockquote", "code-block"],
+          ["link", "image", "video"],
+          ["clean"],
+        ],
+        handlers: {
+          image: imageHandler,
+        },
       },
-    },
-  };
+    }),
+    [] 
+  );
   
 
   const formats = [
@@ -90,7 +97,7 @@ export default function Editor() {
         ? `http://localhost:5000/api/posts/${post._id}` // Update existing post
         : "http://localhost:5000/api/posts"; // Create new post
 
-        const method = post ? "PUT" : "POST"; // Use PUT for editing, POST for creating
+        const method = post ? "PUT" : "POST"; 
 
         const res = await fetch(url, {
           method,
@@ -101,7 +108,7 @@ export default function Editor() {
           body: JSON.stringify(postData),
         });
 
-        // Handle the response
+       
         if (res.ok) {
             const result = await res.json();
             console.log('Post submitted successfully:', result);
@@ -110,6 +117,8 @@ export default function Editor() {
         } else if (res.status === 401) {
             console.error('Unauthorized. Please log in again.');
             setLoading(false)
+            toast.error("Unauthorized. Please log in again.")
+            navigate("/login")
             // Optionally, redirect to login page or show a message
         } else {
             console.error('Failed to submit post');

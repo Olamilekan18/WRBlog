@@ -8,6 +8,7 @@ import userRoutes from './routes/userRoutes.js'
 import commentRoutes from './routes/commentRoutes.js'
 import subscribeRoutes from './routes/subscribeRoutes.js'
 import authRoutes from './routes/authRoutes.js'
+import uploadRoutes from './routes/uploadRoutes.js'
 
 dotenv.config(); 
 connectDB(); 
@@ -37,6 +38,9 @@ app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/subscribe', subscribeRoutes)
+app.use("/api", uploadRoutes);
+// Serve static files from the uploads directory
+app.use("/uploads", express.static("uploads"));
 
 
 

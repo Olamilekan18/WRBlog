@@ -23,7 +23,7 @@ function Home() {
       try {
         const response = await axios.get(`http://localhost:5000/api/posts/user/${id}`, {
           headers: {
-            Authorization: `Bearer ${userData.token}`, // Pass the token for authentication
+            Authorization: `Bearer ${userData.token}`, 
           },
         });
         setPosts(response.data);
@@ -95,8 +95,8 @@ function Home() {
               <PostCard
                 key={post._id}
                 post={post}
-                onDelete={handleDelete} // Pass handleDelete as onDelete
-                onEdit={handleEdit} // Pass handleEdit as onEdit
+                onDelete={handleDelete} 
+                onEdit={handleEdit} 
               />
             ))}
           </div>
@@ -107,14 +107,14 @@ function Home() {
         )}
         <div className="flex   justify-center items-center mt-4">
   <button
-  onClick={() => navigate("/all-posts")} // Navigate to the /all-posts route
+  onClick={() => navigate("/all-posts")} 
   className="px-4 py-2 bg-green-500 cursor-pointer mt- 3 text-white rounded-lg hover:bg-green-600"
 >
   See All Posts
 </button>
 
 <button
-  onClick={() => navigate("/editor")} // Navigate to the /all-posts route
+  onClick={() => navigate("/editor")} 
   className="px-4 py-2 bg-green-500 cursor-pointer ml-3 text-white rounded-lg hover:bg-green-600"
 >
   Start Writing
@@ -126,7 +126,6 @@ function Home() {
   );
 }
 
-// Separate PostCard component for better organization
 function PostCard({ post, onDelete, onEdit }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -183,6 +182,7 @@ function PostCard({ post, onDelete, onEdit }) {
           >
             Edit
           </button>
+
           <button
             onClick={() => onDelete(post._id)}
             className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
