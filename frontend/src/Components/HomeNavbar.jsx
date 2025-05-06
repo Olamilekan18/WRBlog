@@ -6,15 +6,27 @@ import { Search } from "lucide-react";
 
 import "./search.css"; // Import your CSS file for search styles
 
-const HomeNavbar = () => {
-//   const { darkMode, setDarkMode } = useDarkMode();
+const HomeNavbar = ({posts}) => {
 const { isDark, toggle } = useDarkMode();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredPosts, setFilteredPosts] = useState(posts); // Initialize with all posts
 
-  const handleBecomeBlogger = () => {
-    navigate("/signup"); // Navigate to the /signup route
-  }
+  const handleSearchChange = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+
+    const filtered = posts.filter((post) =>
+      post.title.toLowerCase().includes(query)
+    );
+    setFilteredPosts(filtered);
+  };
+
+   // Handle navigating to post when clicked
+   const handlePostClick = (postId) => {
+    navigate(`/posts/${postId}`);
+  };
 
   const handleLogin = () => {
     navigate("/login"); // Navigate to the /login route
@@ -33,16 +45,41 @@ const { isDark, toggle } = useDarkMode();
       {/* Dark Mode Toggle (Desktop) */}
       <button
         onClick={toggle}
-        className={`hidden cursor-pointer md:block p-2 rounded border ${
+        className={`hidden cursor-pointer md:block p-2 rounded  ${
           isDark ? "border-gray-600 hover:bg-gray-700" : "border-green-300 hover:bg-green-200"
         }`}
       >
         {isDark ? <Sun size={20} /> : <Moon size={20} />}
       </button>
       <div className="search-container">
-        <input type="text" name="" id="" placeholder="Search..." />
-        <button><Search/></button>
-      </div>
+  <input
+    type="text"
+    placeholder="Search posts by title..."
+    value={searchQuery}
+    onChange={handleSearchChange}
+    className="search-input"
+  />
+  <button>
+    <Search />
+  </button>
+
+  {/* Show search results only when there is a query */}
+  {searchQuery && (
+    <div className="search-results">
+      {filteredPosts.length === 0 ? (
+        <p>No posts found matching "{searchQuery}"</p>
+      ) : (
+        <ul>
+          {filteredPosts.map((post) => (
+            <li key={post._id} onClick={() => handlePostClick(post._id)}>
+              {post.title}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )}
+</div>
 
       {/* Mobile Menu Button */}
       <button
@@ -54,11 +91,6 @@ const { isDark, toggle } = useDarkMode();
 
       {/* Desktop Navigation Links */}
       <ul className="hidden md:flex space-x-6">
-        {/* <li>
-          <a href="#" className="border-b-2 border-transparent hover:border-green-500 transition">
-            About Us
-          </a>
-        </li> */}
         <li>
           <a href="/all-posts" className="border-b-2 border-transparent hover:border-green-500 transition">
             View Blogs
@@ -71,14 +103,6 @@ const { isDark, toggle } = useDarkMode();
         </li>
       </ul>
 
-      {/* <div className="search-container">
-        <input type="text" placeholder="Search..." className={`w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500 text-black ${isDark? "text-white" : "text-gray-900"}`} />
-      </div> */}
-
-      {/* <div className="search-container">
-        <input type="text" name="" id="" placeholder="Search..." />
-        <button><Search/></button>
-      </div> */}
 
       {/* Desktop CTA Buttons */}
       <div className="hidden md:flex space-x-4">
@@ -88,7 +112,7 @@ const { isDark, toggle } = useDarkMode();
           Log out
         </button>
         <button 
-          onClick={handleDashboard}  // Navigate to the /signup route when clicked
+          onClick={handleDashboard}   
         className="px-4 py-2 bg-green-500 cursor-pointer text-white rounded-lg hover:bg-green-600">
             Dashboard        </button>
       </div>

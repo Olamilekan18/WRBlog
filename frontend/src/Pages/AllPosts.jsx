@@ -44,7 +44,7 @@ function AllPosts() {
 
   return (
     <div className="min-h-screen ">
-      <HomeNavbar />
+      <HomeNavbar posts = {posts} />
 
       <div className="container mx-auto px-4 py-8">
         <h2 className="text-3xl font-bold text-green-800 mb-6">All Posts</h2>

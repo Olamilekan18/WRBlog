@@ -1,23 +1,23 @@
-import { useState, useRef, useMemo } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import { useNavigate } from 'react-router-dom';
-import { ClipLoader } from 'react-spinners';
-import HomeNavbar from '../Components/homeNavbar.jsx';
+import { useState, useRef, useMemo } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { useNavigate, useLocation } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
+import HomeNavbar from "../Components/homeNavbar.jsx";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 export default function Editor() {
-  const post = location.state?.post||null
-  const [title, setTitle] = useState(post?.title||" ");
-  const [content, setContent] = useState(post?.content || "");
-  const [error,setError] = useState(false)
-  const [loading,setLoading] = useState(false)
+  const location = useLocation();
+  const post = location.state?.post || null; // Retrieve the post object from state
+
+  const [title, setTitle] = useState(post?.title || ""); // Pre-fill title if editing
+  const [content, setContent] = useState(post?.content || ""); // Pre-fill content if editing
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const quillRef = useRef();
-  const navigate = useNavigate()
-  // const post = location.state?.post||null
+  const navigate = useNavigate();
 
   const imageHandler = () => {
     const input = document.createElement("input");
@@ -47,7 +47,7 @@ export default function Editor() {
         }
       }
     };
-  }
+  };
 
   const modules = useMemo(
     () => ({
@@ -67,85 +67,85 @@ export default function Editor() {
         },
       },
     }),
-    [] 
+    []
   );
-  
 
   const formats = [
-    'header', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block',
-    'color', 'background', 'list', 'bullet', 'align', 'link', 'image', 'video',
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "code-block",
+    "color",
+    "background",
+    "list",
+    "bullet",
+    "align",
+    "link",
+    "image",
+    "video",
   ];
 
   const handleSubmit = async () => {
-    setLoading(true)
+    setLoading(true);
     const postData = {
-        title,
-       content
-      };
-      console.log(postData);
-      const userData = JSON.parse(localStorage.getItem("userData"));
-      console.log(userData)
-      const token = userData.token; 
-      if (!token) {
-        setError(true)
-        console.error('No token found. Please log in.');
-        toast.error("No token found,l please log in again")
-        return;
-      }
-      try {
-        const url = post
+      title,
+      content,
+    };
+
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    const token = userData?.token;
+
+    if (!token) {
+      setError(true);
+      toast.error("No token found. Please log in.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const url = post
         ? `http://localhost:5000/api/posts/${post._id}` // Update existing post
         : "http://localhost:5000/api/posts"; // Create new post
 
-        const method = post ? "PUT" : "POST"; 
+      const method = post ? "PUT" : "POST"; // Use PUT for editing, POST for creating
 
-        const res = await fetch(url, {
-          method,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(postData),
-        });
+      const res = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(postData),
+      });
 
-       
-        if (res.ok) {
-            const result = await res.json();
-            console.log('Post submitted successfully:', result);
-            setLoading(false)
-            navigate("/home")
-        } else if (res.status === 401) {
-            console.error('Unauthorized. Please log in again.');
-            setLoading(false)
-            toast.error("Unauthorized. Please log in again.")
-            navigate("/login")
-            // Optionally, redirect to login page or show a message
-        } else {
-            console.error('Failed to submit post');
-            setLoading(false)
-        }
+      if (res.ok) {
+        const result = await res.json();
+        toast.success(post ? "Post updated successfully!" : "Post created successfully!");
+        setLoading(false);
+        navigate("/home"); // Redirect to home
+      } else if (res.status === 401) {
+        toast.error("Unauthorized. Please log in again.");
+        setLoading(false);
+        navigate("/login"); // Redirect to login
+      } else {
+        toast.error("Failed to submit post.");
+        setLoading(false);
+      }
     } catch (error) {
-      setError(true)
-      setLoading(false)
-        console.error('Error:', error);
+      toast.error("An error occurred while submitting the post.");
+      console.error("Error:", error);
+      setLoading(false);
     }
-
-    if (loading) return <div className="text-center py-8">  <ClipLoader
-  size={150}
-  aria-label="Loading Spinner"
-  data-testid="loader"
-  color="#36d7b7"
-  display = "block"
-/></div>;
-
-    }
-  
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <ToastContainer/>
-      
-      <HomeNavbar className = "mt-4"/>
+      <ToastContainer />
+
+      <HomeNavbar className="mt-4" />
       <input
         type="text"
         placeholder="Enter Post Title"
@@ -167,10 +167,9 @@ export default function Editor() {
         onClick={handleSubmit}
         className="mt-6 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition cursor-pointer"
       >
-      {post? "Update Post"  : "Post Blog"}
+        {post ? "Update Post" : "Post Blog"}
       </button>
-{error && <p className='text-red-500'>Please login to post</p>}
-      {/* Fix: Editor height */}
+      {error && <p className="text-red-500">Please login to post</p>}
       <style>
         {`
           .ql-editor {

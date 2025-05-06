@@ -45,19 +45,18 @@ function Dashboard() {
   return (
     <div className="min-h-screen">
       <HomeNavbar />
-      <div className="p-6 bg-gray-100 min-h-screen text-gray-800">
-      <h1 className="text-3xl font-bold mb-6">📊 Your Blog Dashboard</h1>
+      <div className="p-6  min-h-screen text-gray-800">
+      <h1 className="text-3xl text-green-600 font-bold mb-6">📊 Your Blog Dashboard</h1>
 
-      {/* Summary Cards */}
+     
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         <SummaryCard title="Total Posts" value={stats.totalPosts} />
         <SummaryCard title="Total Likes" value={stats.totalLikes} />
         <SummaryCard title="Total Views" value={stats.totalViews} />
       </div>
 
-      {/* Post Cards */}
       <div>
-        <h2 className="text-xl font-semibold mb-4">📝 Recent Posts</h2>
+        <h2 className="text-xl text-green-600 font-semibold mb-4">📝 Recent Posts</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {stats.postStats.map((post, index) => (
             <PostCard key={index} post={post} />

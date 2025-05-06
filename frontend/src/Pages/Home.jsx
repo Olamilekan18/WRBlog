@@ -73,7 +73,7 @@ function Home() {
   return (
     <div className="min-h-screen">
       <ToastContainer />
-      <HomeNavbar />
+      <HomeNavbar posts ={posts} />
 
       <div className="container mx-auto px-4 py-8">
         {/* Welcome Banner */}
