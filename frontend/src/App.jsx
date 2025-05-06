@@ -12,6 +12,7 @@ import AuthForm from "./Pages/Signup.jsx";
 import ForgotPassword from "./Pages/ForgotPassword.jsx";
 import ResetPassword from "./Pages/ResetPassword.jsx";
 import Home from "./Pages/Home.jsx";
+import Dashboard from "./Pages/Dashboard.jsx";
 import "./App.css"; 
 import AllPosts from "./Pages/AllPosts.jsx";
 import Editor from "./Pages/Editor.jsx";
@@ -60,6 +61,9 @@ function App() {
             {/* Editor Route */}
             <Route path="/editor" element={<Editor />} />
             <Route path="/editor/:postId" element={<Editor />} />
+
+            {/* Dashbard Route */}
+            <Route path = '/dashboard' element = {<Dashboard/>}/>
             {/* 404 Not Found Route */}
             <Route
               path="*"

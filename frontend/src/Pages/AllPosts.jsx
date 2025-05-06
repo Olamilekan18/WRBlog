@@ -59,7 +59,6 @@ function AllPosts() {
   );
 }
 
-// Reuse the PostCard component
 function PostCard({ post }) {
   
   const [expanded, setExpanded] = useState(false)

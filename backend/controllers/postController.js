@@ -92,3 +92,45 @@ export const deletePost = async (req, res) => {
     }
   };
   
+  export const getPostStats = async (req, res) => {
+    try {
+      console.log("working")
+      const stats = await Post.aggregate([
+        {
+          $group: {
+            _id: "$author", // Group by author ObjectId
+            totalPosts: { $sum: 1 },
+          },
+        },
+        {
+          $lookup: {
+            from: "users", // Name of the collection
+            localField: "_id",
+            foreignField: "__id",
+            as: "authorDetails",
+          },
+        },
+        {
+          $unwind: {
+            path: "$authorDetails",
+            preserveNullAndEmptyArrays: true, // Prevent crashing if user not found
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            author: "$authorDetails.name",
+            email: "$authorDetails.email",
+            totalPosts: 1,
+          },
+        },
+      ]);
+  
+      res.status(200).json(stats);
+    } catch (error) {
+      console.log("not working")
+      console.error("Post stats error:", error);
+      res.status(500).json({ message: "Error fetching post stats", error });
+    }
+  };
+  

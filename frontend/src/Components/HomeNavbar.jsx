@@ -19,6 +19,10 @@ const { isDark, toggle } = useDarkMode();
   const handleLogin = () => {
     navigate("/login"); // Navigate to the /login route
   }
+
+  const handleDashboard = () =>{
+    navigate('/dashboard')
+  }
   return (
     <nav className={`flex items-center justify-between p-4 border-b shadow-md transition-colors duration-300 ${
       isDark ? "bg-gray-900 text-white border-gray-700" : "bg-gray-100 text-green-700 border-green-300"
@@ -84,9 +88,9 @@ const { isDark, toggle } = useDarkMode();
           Log out
         </button>
         <button 
-          onClick={handleBecomeBlogger}  // Navigate to the /signup route when clicked
+          onClick={handleDashboard}  // Navigate to the /signup route when clicked
         className="px-4 py-2 bg-green-500 cursor-pointer text-white rounded-lg hover:bg-green-600">
-            Notifications        </button>
+            Dashboard        </button>
       </div>
 
       {/* Mobile Drawer */}
@@ -131,8 +135,8 @@ const { isDark, toggle } = useDarkMode();
             } rounded-lg`}>
               Log out
             </button>
-            <button  onClick={handleBecomeBlogger} className="w-full py-2 mt-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
-              Notifications
+            <button  onClick={handleDashboard} className="w-full py-2 mt-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
+              Dashboard
             </button>
           </div>
         </div>

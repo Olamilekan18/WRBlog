@@ -5,9 +5,10 @@ import dotenv from "dotenv";
 import User from "../models/userModel.js"; 
 import Post from '../models/Post.js'; 
 import { getUserProfile, updateUserProfile, getAllUsers, updateProfilePicture, uploadProfilePicture, getCurrentUserProfile } from "../controllers/userController.js";
-import protect from "../middleware/authMiddleware.js";
 import { upload } from "../middleware/uploadMiddleware.js";
-
+// import Post from "../models/Post.js";
+import { getUserDashboard } from "../controllers/userController.js";
+import protect from "../middleware/authMiddleware.js";
 dotenv.config();
 
 const router = express.Router();
@@ -96,6 +97,8 @@ router.post("/login", async (req, res) => {
             }
           });
           router.get('/', getAllUsers )
+
+          router.get('/dashboard', protect,  getUserDashboard)
           
           router.get('/profile', protect, getCurrentUserProfile); 
           router.get('/:id', getUserProfile);
