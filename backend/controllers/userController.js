@@ -141,34 +141,34 @@ export const updateProfilePicture = async (req, res) => {
     }
   };
 
-export const getUserDashboard = async (req, res) => {
-  try {
-    const userId = req.user.id; // Get the logged-in user's ID from the token
-
-    // Fetch all posts by the user
-    const posts = await Post.find({ author: userId });
-
-    // Calculate stats
-    const totalPosts = posts.length;
-    const totalLikes = posts.reduce((sum, post) => sum + (post.likes || 0), 0); // Assuming `likes` is a field in the Post model
-    const totalViews = posts.reduce((sum, post) => sum + (post.views || 0), 0); // Assuming `views` is a field in the Post model
-
-    // Prepare detailed stats for each post
-    const postStats = posts.map((post) => ({
-      title: post.title,
-      likes: post.likes || 0,
-      views: post.views || 0,
-      createdAt: post.createdAt,
-    }));
-
-    res.status(200).json({
-      totalPosts,
-      totalLikes,
-      totalViews,
-      postStats,
-    });
-  } catch (error) {
-    console.error("Error fetching user dashboard:", error);
-    res.status(500).json({ message: "Error fetching user dashboard", error });
-  }
-};
+  export const getUserDashboard = async (req, res) => {
+    try {
+      const userId = req.user.id; // Get the logged-in user's ID from the token
+  
+      // Fetch all posts by the user
+      const posts = await Post.find({ author: userId });
+  
+      // Calculate stats
+      const totalPosts = posts.length;
+      const totalLikes = posts.reduce((sum, post) => sum + (post.likes?.length || 0), 0); // Count likes
+      const totalViews = posts.reduce((sum, post) => sum + (post.views || 0), 0);
+      
+      // Prepare detailed stats for each post
+      const postStats = posts.map((post) => ({
+        title: post.title,
+        likes: post.likes?.length || 0, // Return count of likes instead of array
+        views: post.views || 0,
+        createdAt: post.createdAt,
+      }));
+  
+      res.status(200).json({
+        totalPosts,
+        totalLikes,
+        totalViews,
+        postStats,
+      });
+    } catch (error) {
+      console.error("Error fetching user dashboard:", error);
+      res.status(500).json({ message: "Error fetching user dashboard", error });
+    }
+  };
