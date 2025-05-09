@@ -71,6 +71,24 @@ export const updatePost = async (req, res) => {
       res.status(500).json({ message: "Error updating post", error });
     }
   };
+
+  export const getPostById = async (req, res) => {
+    const { postId } = req.params; // Extract postId from the request parameters
+  
+    try {
+      // Find the post by ID and populate the author field
+      const post = await Post.findById(postId).populate("author", "name email");
+  
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
+  
+      res.status(200).json(post); // Return the post
+    } catch (error) {
+      console.error("Error fetching post by ID:", error);
+      res.status(500).json({ message: "Error fetching post", error });
+    }
+  };
   
 //delete post
 export const deletePost = async (req, res) => {

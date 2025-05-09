@@ -1,6 +1,6 @@
 import express from "express";
 import protect from "../middleware/authMiddleware.js"; // Import middleware
-import { createPost, getPosts, getPostsByUserId, getPostStats, updatePost, deletePost } from "../controllers/postController.js";
+import { createPost, getPosts, getPostById, getPostsByUserId, getPostStats, updatePost, deletePost } from "../controllers/postController.js";
 import Post from "../models/Post.js";
 import { createComment, getComments, updateComment, getCommentById, deleteComment } from "../controllers/commentController.js";
 
@@ -25,7 +25,6 @@ router.get("/:postId", async (req, res) => { // Get a single post by ID
 });
 router.put("/:postId", protect, updatePost); // Update a post
 router.delete("/:postId", protect, async (req,res) =>
-  // {const { id } = req.params;
   {
     try {
       const post = await Post.findById(req.params.postId);
@@ -45,6 +44,7 @@ router.delete("/:postId", protect, async (req,res) =>
     // Delete a post
 
     router.get("/s", getPostStats)
+    router.get("/:postId", getPostById); // Route to get a post by ID
 // Comment routes
 router.get("/:postId/comments", getComments); // Get all comments for a post
 router.post("/:postId/comments", protect, createComment); // Add a new comment to a post

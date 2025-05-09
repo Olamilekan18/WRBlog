@@ -9,10 +9,10 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Editor() {
   const location = useLocation();
-  const post = location.state?.post || null; // Retrieve the post object from state
+  const post = location.state?.post || null;
 
-  const [title, setTitle] = useState(post?.title || ""); // Pre-fill title if editing
-  const [content, setContent] = useState(post?.content || ""); // Pre-fill content if editing
+  const [title, setTitle] = useState(post?.title || ""); 
+  const [content, setContent] = useState(post?.content || ""); 
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 

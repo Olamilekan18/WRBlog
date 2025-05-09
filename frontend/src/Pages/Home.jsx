@@ -61,6 +61,12 @@ function Home() {
     navigate(`/editor/${post._id}`, { state: { post } }); // Navigate to the editor page with the post data
   };
 
+  const handlePost = (post) => {
+    navigate(`/posts/${post._id}`, { state: { post } }); // Navigate to the post details page with the post data
+  };
+
+
+
   if (loading)
     return (
       <div className="text-center py-8">
@@ -97,6 +103,7 @@ function Home() {
                 post={post}
                 onDelete={handleDelete} 
                 onEdit={handleEdit} 
+                handlePost={handlePost}
               />
             ))}
           </div>
@@ -126,8 +133,10 @@ function Home() {
   );
 }
 
-function PostCard({ post, onDelete, onEdit }) {
+function PostCard({ post, onDelete, onEdit, handlePost }) {
+  
   const [expanded, setExpanded] = useState(false);
+ 
 
   return (
     <div className="bg-white cursor-pointer rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200">
@@ -170,8 +179,8 @@ function PostCard({ post, onDelete, onEdit }) {
           <span className="text-sm text-green-600">
             {new Date(post.createdAt).toLocaleDateString()}
           </span>
-          <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">
-            #{post.tags?.[0] || "General"}
+          <span onClick={()=>handlePost(post)} className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">
+           View Post
           </span>
           </div>
 

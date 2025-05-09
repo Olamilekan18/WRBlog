@@ -16,6 +16,7 @@ import Dashboard from "./Pages/Dashboard.jsx";
 import "./App.css"; 
 import AllPosts from "./Pages/AllPosts.jsx";
 import Editor from "./Pages/Editor.jsx";
+import PostDetails from "./Pages/PostDetails.jsx";
 
 function App() {
   return (
@@ -64,6 +65,9 @@ function App() {
 
             {/* Dashbard Route */}
             <Route path = '/dashboard' element = {<Dashboard/>}/>
+
+            <Route path="/posts/:postId" element={<PostDetails />} />
+
             {/* 404 Not Found Route */}
             <Route
               path="*"

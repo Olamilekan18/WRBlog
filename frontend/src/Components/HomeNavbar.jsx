@@ -4,8 +4,7 @@ import { useDarkMode } from "../context/DarkModeContext";
 import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
 
-import "./search.css"; // Import your CSS file for search styles
-
+import "./search.css"; 
 const HomeNavbar = ({posts}) => {
 const { isDark, toggle } = useDarkMode();
   const navigate = useNavigate();
@@ -23,13 +22,12 @@ const { isDark, toggle } = useDarkMode();
     setFilteredPosts(filtered);
   };
 
-   // Handle navigating to post when clicked
    const handlePostClick = (postId) => {
     navigate(`/posts/${postId}`);
   };
 
   const handleLogin = () => {
-    navigate("/login"); // Navigate to the /login route
+    navigate("/login");
   }
 
   const handleDashboard = () =>{
