@@ -47,11 +47,56 @@ console.l
     }
   };
 
+  const handleLike = async () => {
+    try {
+        const userData = JSON.parse(localStorage.getItem("userData")); // Get token from localStorage
+        const token = userData.token
+    //   const token = localStorage.getItem("token");
+      
+      if (!token) {
+        toast.error("Please login to like posts");
+        return;
+      }
+  
+      const response = await axios.post(
+        `http://localhost:5000/api/posts/${postId}/like`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`, // Pass the token for authentication
+          },
+        }
+      );
+  
+      // Update state based on the response
+      setPost(prevPost => ({
+        ...prevPost,
+        likes: response.data.likes,
+      }));
+      
+      // Use the liked status from the response instead of toggling
+      setLiked(response.data.liked);
+      
+      toast.success(response.data.liked ? "Post liked!" : "Like removed");
+    } catch (error) {
+      console.error("Error liking post:", error);
+      
+      if (error.response?.status === 401) {
+        toast.error("Session expired. Please login again");
+        // Optional: redirect to login
+        // navigate('/login');
+      } else {
+        toast.error("Failed to like the post");
+      }
+    }
+  };
+
   if (loading) return <p className="text-center py-10 text-gray-500">Loading...</p>;
   if (error) return <p className="text-red-500 text-center py-10">{error}</p>;
 
   return (
     <div>
+        <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover draggable pauseOnFocusLoss theme="light" />
         <HomeNavbar/>
     <div className="max-w-3xl  mx-auto  shadow-md rounded-2xl p-6 mt-10 border border-gray-200">
       <h1 className="text-4xl  font-extrabold mb-3">{post.title}</h1>
@@ -63,15 +108,15 @@ console.l
       ></div>
 
       <div className="flex items-center gap-6 border-t border-gray-200 pt-4">
-        <button
-          onClick={() => setLiked(!liked)}
-          className={`flex items-center gap-2 text-sm ${
-            liked ? "text-red-500" : "text-gray-600 hover:text-red-500"
-          }`}
-        >
-          <Heart fill={liked ? "red" : "none"} className="w-5 h-5" />
-          {liked ? "Liked" : "Like"}
-        </button>
+      <button
+  onClick={handleLike}
+  className={`flex items-center gap-2 text-sm ${
+    liked ? "text-red-500" : "text-gray-600 hover:text-red-500"
+  }`}
+>
+  <Heart fill={liked ? "red" : "none"} className="w-5 h-5" />
+  {liked ? "Liked" : "Like"} ({post.likes || 0})
+</button>
 
         <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-blue-500">
           <MessageCircle className="w-5 h-5" />

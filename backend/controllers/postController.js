@@ -108,7 +108,44 @@ export const deletePost = async (req,res) =>
      catch (error) {
       res.status(500).json({ message: "Error deleting post", error });
     }}
-  
+    export const likePost = async (req, res) => {
+      const { postId } = req.params;
+      const userId = req.user.id;
+    
+      try {
+        const post = await Post.findById(postId);
+    
+        if (!post) {
+          return res.status(404).json({ message: "Post not found" });
+        }
+    
+        // Clean up the likes array by removing any null or invalid values
+        post.likes = post.likes.filter(id => id !== null && id.toString);
+    
+        // Check if the user has already liked the post
+        const alreadyLiked = post.likes.some(id => id.toString() === userId.toString());
+    
+        if (alreadyLiked) {
+          // If already liked, remove the like
+          post.likes = post.likes.filter(id => id.toString() !== userId.toString());
+        } else {
+          // Otherwise, add the like
+          post.likes.push(userId);
+        }
+    
+        await post.save();
+    
+        res.status(200).json({ 
+          success: true,
+          liked: !alreadyLiked,
+          likes: post.likes.length 
+        });
+        
+      } catch (error) {
+        console.error("Error liking post:", error);
+        res.status(500).json({ message: "Error liking post", error });
+      }
+    };
   export const getPostStats = async (req, res) => {
     try {
       console.log("working")
