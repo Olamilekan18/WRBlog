@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import HomeNavbar from "../Components/homeNavbar";
 import { ClipLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 function AllPosts() {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,6 +25,10 @@ function AllPosts() {
 
     fetchPosts();
   }, []);
+
+  const handlePost = (post) => {
+    navigate(`/posts/${post._id}`, { state: { post } }); // Navigate to the post details page with the post data
+  };
 
   function randomAvavtar(){
     const avatars = [
@@ -51,7 +57,9 @@ function AllPosts() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((post) => (
-            <PostCard key={post._id} post={post} />
+            <PostCard key={post._id} 
+            post={post}
+            handlePost={handlePost} />
           ))}
         </div>
       </div>
@@ -59,7 +67,7 @@ function AllPosts() {
   );
 }
 
-function PostCard({ post }) {
+function PostCard({ post, handlePost }) {
   
   const [expanded, setExpanded] = useState(false)
     return (
@@ -107,9 +115,10 @@ function PostCard({ post }) {
             <span className="text-sm text-green-600">
               {new Date(post.createdAt).toLocaleDateString()}
             </span>
-            <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">
-              #{post.tags?.[0] || "General"}
-            </span>
+            
+          <span onClick={()=>handlePost(post)} className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">
+           View Post
+          </span>
           </div>
         </div>
       </div>

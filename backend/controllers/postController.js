@@ -34,11 +34,27 @@ export const getPosts = async (req, res) => {
   }
 };
 
+export const getPostById = async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const post = await Post.findById(postId).populate("author", "name email");
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+    res.status(200).json(post); 
+  } catch (error) {
+    console.error("Error fetching post by ID:", error);
+    res.status(500).json({ message: "Error fetching post", error });
+  }
+};
+
 export const getPostsByUserId = async (req, res) => {
   try {
     const userId = req.params.userId; 
     const posts = await Post.find({ author: userId }) // Find posts by author ID
-      .populate("author", "name email") // Populate author details
+      .populate("author", "name email") 
       .select("title content tags author createdAt updatedAt") // Select specific fields to return
       .sort({ createdAt: -1 }); // Sort by creation date
 if(!posts){
@@ -72,30 +88,13 @@ export const updatePost = async (req, res) => {
     }
   };
 
-  export const getPostById = async (req, res) => {
-    const { postId } = req.params; // Extract postId from the request parameters
   
-    try {
-      // Find the post by ID and populate the author field
-      const post = await Post.findById(postId).populate("author", "name email");
-  
-      if (!post) {
-        return res.status(404).json({ message: "Post not found" });
-      }
-  
-      res.status(200).json(post); // Return the post
-    } catch (error) {
-      console.error("Error fetching post by ID:", error);
-      res.status(500).json({ message: "Error fetching post", error });
-    }
-  };
   
 //delete post
-export const deletePost = async (req, res) => {
-    const { id } = req.params;
-  
+export const deletePost = async (req,res) =>
+  {
     try {
-      const post = await Post.findById(id);
+      const post = await Post.findById(req.params.postId);
       if (!post) return res.status(404).json({ message: "Post not found" });
   
       // Authorization check
@@ -105,10 +104,10 @@ export const deletePost = async (req, res) => {
   
       await post.deleteOne();
       res.status(200).json({ message: "Post deleted successfully" });
-    } catch (error) {
-      res.status(500).json({ message: "Error deleting post", error });
     }
-  };
+     catch (error) {
+      res.status(500).json({ message: "Error deleting post", error });
+    }}
   
   export const getPostStats = async (req, res) => {
     try {

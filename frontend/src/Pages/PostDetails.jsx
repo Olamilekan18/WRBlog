@@ -33,6 +33,7 @@ function PostDetails() {
 
     fetchPost();
   }, [postId]);
+console.l
 
   const handleShare = () => {
     if (navigator.share) {
