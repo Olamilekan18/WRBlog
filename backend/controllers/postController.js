@@ -118,6 +118,7 @@ export const deletePost = async (req,res) =>
      catch (error) {
       res.status(500).json({ message: "Error deleting post", error });
     }}
+
     export const likePost = async (req, res) => {
       const { postId } = req.params;
       const userId = req.user?.id; // Optional chaining in case req.user is undefined
@@ -133,13 +134,12 @@ export const deletePost = async (req,res) =>
           return res.status(404).json({ message: "Post not found" });
         }
     
-        // Initialize likes as an empty array if undefined/null
         if (!post.likes) {
           post.likes = [];
         }
     
-        // Clean up the likes array (remove null/undefined/invalid entries)
-        post.likes = post.likes.filter(id => id && id.toString); // Fixed: Properly checks for truthy values
+        
+        post.likes = post.likes.filter(id => id && id.toString); 
     
         // Check if the user already liked the post
         const alreadyLiked = post.likes.some(id => id.toString() === userId.toString());

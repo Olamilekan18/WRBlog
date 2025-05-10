@@ -1,18 +1,15 @@
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import React from "react";
+import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-  const { user, isLoading } = useAuth();
+  const userData = JSON.parse(localStorage.getItem("userData")); // Check if user data exists in localStorage
 
-  if (isLoading) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>;
-  }
-
-  if (!user) {
+  if (!userData || !userData.token) {
+    // If no token, redirect to login
     return <Navigate to="/login" replace />;
   }
 
-  return children;
+  return children; // Render the protected component
 };
 
 export default ProtectedRoute;

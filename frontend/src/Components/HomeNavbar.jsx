@@ -30,6 +30,11 @@ const { isDark, toggle } = useDarkMode();
     navigate("/login");
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("userData"); // Clear user data from localStorage
+    window.location.href = "/login"; // Redirect to login page
+  };
+
   const handleDashboard = () =>{
     navigate('/dashboard')
   }
@@ -104,7 +109,7 @@ const { isDark, toggle } = useDarkMode();
 
       {/* Desktop CTA Buttons */}
       <div className="hidden md:flex space-x-4">
-        <button onClick={handleLogin} className={`px-4 py-2 cursor-pointer border ${
+        <button onClick={handleLogout} className={`px-4 py-2 cursor-pointer border ${
           isDark ? "border-gray-600 hover:bg-gray-700" : "border-green-500 hover:bg-green-100"
         } rounded-lg`}>
           Log out
@@ -152,7 +157,7 @@ const { isDark, toggle } = useDarkMode();
             </li>
           </ul>
           <div className="mt-6">
-            <button onClick={handleLogin} className={`w-full py-2 cursor-pointer border ${
+            <button onClick={handleLogout} className={`w-full py-2 cursor-pointer border ${
               isDark ? "border-gray-600 hover:bg-gray-700" : "border-green-500 hover:bg-green-100"
             } rounded-lg`}>
               Log out

@@ -17,15 +17,15 @@ import "./App.css";
 import AllPosts from "./Pages/AllPosts.jsx";
 import Editor from "./Pages/Editor.jsx";
 import PostDetails from "./Pages/PostDetails.jsx";
+import ProtectedRoute from "./Components/ProtectedRoute"; // Import the ProtectedRoute component
 
 function App() {
   return (
     <DarkModeProvider>
       <Router>
         <div className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white transition duration-300">
-          {/* <Navbar /> */}
           <Routes>
-            {/* Homepage Route */}
+            {/* Public Routes */}
             <Route
               path="/"
               element={
@@ -40,33 +40,60 @@ function App() {
                 </>
               }
             />
-
-            {/* Signup Route */}
             <Route path="/signup" element={<AuthForm type="signup" />} />
-
-            {/* Login Route */}
             <Route path="/login" element={<AuthForm type="login" />} />
-            {/* Forgot Password Route */}
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            
-            {/* Reset Password Route */}
             <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-            {/* Homepage Route */}
-            <Route path="/home" element={<>
-            {/* <HomeNavbar/> */}
-            <Home/>
-            </>} /> 
-            <Route path = 'all-posts' element={<AllPosts/>}/>
-
-            {/* Editor Route */}
-            <Route path="/editor" element={<Editor />} />
-            <Route path="/editor/:postId" element={<Editor />} />
-
-            {/* Dashbard Route */}
-            <Route path = '/dashboard' element = {<Dashboard/>}/>
-
-            <Route path="/posts/:postId" element={<PostDetails />} />
+            {/* Protected Routes */}
+            <Route
+              path="/home"
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/all-posts"
+              element={
+                <ProtectedRoute>
+                  <AllPosts />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/editor"
+              element={
+                <ProtectedRoute>
+                  <Editor />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/editor/:postId"
+              element={
+                <ProtectedRoute>
+                  <Editor />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/posts/:postId"
+              element={
+                <ProtectedRoute>
+                  <PostDetails />
+                </ProtectedRoute>
+              }
+            />
 
             {/* 404 Not Found Route */}
             <Route
@@ -79,8 +106,6 @@ function App() {
                 </div>
               }
             />
-            
-
           </Routes>
         </div>
       </Router>

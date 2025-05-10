@@ -33,8 +33,6 @@ function PostDetails() {
 
     fetchPost();
   }, [postId]);
-console.l
-
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
@@ -49,10 +47,8 @@ console.l
 
   const handleLike = async () => {
     try {
-        const userData = JSON.parse(localStorage.getItem("userData")); // Get token from localStorage
-        const token = userData.token
-    //   const token = localStorage.getItem("token");
-      
+        const userData = JSON.parse(localStorage.getItem("userData")); 
+    
       if (!token) {
         toast.error("Please login to like posts");
         return;
