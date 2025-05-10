@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ForgotPassword from "../Components/ForgotPassword";
+import HomeNavbar from "../Components/homeNavbar";
 
 const AuthForm = ({ isDark, type, onAuthSuccess }) => {
     axios.defaults.baseURL = "http://localhost:5000"; 
@@ -65,7 +66,9 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
 
 
   return (
-    <div className={`min-h-screen flex items-center justify-center ${isDark ? "bg-gray-900 text-white" : "bg-gray-100 text-green-900"}`}>
+    <div>
+      <HomeNavbar/>
+    <div className={`min-h-screen flex items-center justify-center ${isDark ? " text-white" : " text-green-900"}`}>
       <div className="p-8 max-w-md w-full shadow-lg rounded-lg bg-white dark:bg-green-800">
         <h2 className="text-2xl font-semibold mb-4 text-green-400">
           {type === "signup" ? "Create Account" : "Welcome Back"}
@@ -170,16 +173,17 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
             </p>
           ) : (
 
-            <p className="text-sm">
+            <p className="text-sm dark: text-green-500">
               Don't have an account?{" "}
-              <a href="/signup" className="text-green-600 hover:underline dark:text-green-400">
+              <a href="/signup" className="text-green-600 hover:underline dark:text-green-200">
                 Sign up here
               </a>
-              <ForgotPassword />
+              <ForgotPassword className="block text-sm text-green-300 font-medium mb-1" />
             </p>
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 };

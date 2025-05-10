@@ -43,7 +43,17 @@ export const getPostById = async (req, res) => {
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
-    res.status(200).json(post); 
+
+    // Safely get the like count, defaulting to 0 if likes is undefined
+    const likeCount = post.likes ? post.likes.length : 0;
+
+    // Return the post with the count of likes
+    const postWithLikeCount = {
+      ...post.toObject(),
+      likes: likeCount // Use the safe like count
+    };
+
+    res.status(200).json(postWithLikeCount);
   } catch (error) {
     console.error("Error fetching post by ID:", error);
     res.status(500).json({ message: "Error fetching post", error });
@@ -110,7 +120,11 @@ export const deletePost = async (req,res) =>
     }}
     export const likePost = async (req, res) => {
       const { postId } = req.params;
-      const userId = req.user.id;
+      const userId = req.user?.id; // Optional chaining in case req.user is undefined
+    
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized: User not authenticated" });
+      }
     
       try {
         const post = await Post.findById(postId);
@@ -119,17 +133,21 @@ export const deletePost = async (req,res) =>
           return res.status(404).json({ message: "Post not found" });
         }
     
-        // Clean up the likes array by removing any null or invalid values
-        post.likes = post.likes.filter(id => id !== null && id.toString);
+        // Initialize likes as an empty array if undefined/null
+        if (!post.likes) {
+          post.likes = [];
+        }
     
-        // Check if the user has already liked the post
+        // Clean up the likes array (remove null/undefined/invalid entries)
+        post.likes = post.likes.filter(id => id && id.toString); // Fixed: Properly checks for truthy values
+    
+        // Check if the user already liked the post
         const alreadyLiked = post.likes.some(id => id.toString() === userId.toString());
     
+        // Toggle like status
         if (alreadyLiked) {
-          // If already liked, remove the like
           post.likes = post.likes.filter(id => id.toString() !== userId.toString());
         } else {
-          // Otherwise, add the like
           post.likes.push(userId);
         }
     
@@ -140,10 +158,10 @@ export const deletePost = async (req,res) =>
           liked: !alreadyLiked,
           likes: post.likes.length 
         });
-        
+    
       } catch (error) {
         console.error("Error liking post:", error);
-        res.status(500).json({ message: "Error liking post", error });
+        res.status(500).json({ message: "Error liking post", error: error.message }); // Send only error.message for security
       }
     };
   export const getPostStats = async (req, res) => {

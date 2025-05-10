@@ -28,8 +28,8 @@ const { isDark, toggle } = useDarkMode();
       {/* Dark Mode Toggle (Desktop) */}
       <button
         onClick={toggle}
-        className={`hidden cursor-pointer md:block p-2 rounded border ${
-          isDark ? "border-gray-600 hover:bg-gray-700" : "border-green-300 hover:bg-green-200"
+        className={`hidden cursor-pointer md:block p-2 rounded  ${
+          isDark ? "border-gray-600 hover:bg-gray-700" : " hover:bg-green-200"
         }`}
       >
         {isDark ? <Sun size={20} /> : <Moon size={20} />}

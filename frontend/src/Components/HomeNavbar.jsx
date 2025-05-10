@@ -38,7 +38,7 @@ const { isDark, toggle } = useDarkMode();
       isDark ? "bg-gray-900 text-white border-gray-700" : "bg-gray-100 text-green-700 border-green-300"
     }`}>
       {/* Logo */}
-      <div className="text-xl font-bold"><a href="/">WRBlog</a></div>
+      <div className="text-xl font-bold"><a href="/home">WRBlog</a></div>
 
       {/* Dark Mode Toggle (Desktop) */}
       <button
