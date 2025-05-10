@@ -38,7 +38,7 @@ const { isDark, toggle } = useDarkMode();
       isDark ? "bg-gray-900 text-white border-gray-700" : "bg-gray-100 text-green-700 border-green-300"
     }`}>
       {/* Logo */}
-      <div className="text-xl font-bold">WRBlog</div>
+      <div className="text-xl font-bold"><a href="/">WRBlog</a></div>
 
       {/* Dark Mode Toggle (Desktop) */}
       <button
@@ -136,17 +136,17 @@ const { isDark, toggle } = useDarkMode();
 
           <ul className="space-y-4 mt-10">
             <li>
-              <a href="#" className="block text-lg border-b-2 border-transparent hover:border-green-500">
+              <a href="/aboutUs" className="block text-lg border-b-2 border-transparent hover:border-green-500">
                 About Us
               </a>
             </li>
             <li>
-              <a href="#" className="block text-lg border-b-2 border-transparent hover:border-green-500">
+              <a href="/all-posts" className="block text-lg border-b-2 border-transparent hover:border-green-500">
                 View Blogs
               </a>
             </li>
             <li>
-              <a href="#" className="block text-lg border-b-2 border-transparent hover:border-green-500">
+              <a href="/contact" className="block text-lg border-b-2 border-transparent hover:border-green-500">
                 Contact
               </a>
             </li>
