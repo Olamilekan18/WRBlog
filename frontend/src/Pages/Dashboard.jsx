@@ -52,7 +52,8 @@ function Dashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         <SummaryCard title="Total Posts" value={stats.totalPosts} />
         <SummaryCard title="Total Likes" value={stats.totalLikes} />
-        <SummaryCard title="Total Views" value={stats.totalViews} />
+        {/* <SummaryCard title="Unique Viewers" value={stats.uniqueViewers} /> */}
+        <SummaryCard title="Unique Viewers" value={stats.uniqueViewers} />
       </div>
 
       <div>
@@ -86,7 +87,7 @@ const PostCard = ({ post }) => (
     </div>
     <div className="mt-4 flex justify-between text-sm text-gray-600">
       <span>👍 {post.likes} Likes</span>
-      <span>👁️ {post.views} Views</span>
+      <span>👁️ {post.uniqueViewers} Views</span>
     </div>
   </div>
 );

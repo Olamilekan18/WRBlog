@@ -206,3 +206,53 @@ export const deletePost = async (req,res) =>
     }
   };
   
+  export const postView = async (req, res) => { 
+    try {
+      const post = await Post.findById(req.params.postId);
+      if (!post) return res.status(404).json({ message: 'Post not found' });
+  
+      // Get viewer IP or user ID
+      const viewerId = req.user?._id || req.ip; // Use IP if not logged in
+      
+      // Add view if not already viewed
+      if (!post.viewers.includes(viewerId)) {
+        post.viewers.push(viewerId);
+        post.viewCount = post.viewers.length;
+        await post.save();
+      }
+  
+      res.json({ 
+        success: true, 
+        viewCount: post.viewCount 
+      });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+      
+    }
+  
+    // Modify your dashboard API endpoint to include unique viewers
+export const dashboard =  async (req, res) => {
+  try {
+    const posts = await Post.find({ author: req.user._id });
+    
+    const stats = {
+      totalPosts: posts.length,
+      totalLikes: posts.reduce((sum, post) => sum + post.likes.length, 0),
+      totalViews: posts.reduce((sum, post) => sum + post.viewCount, 0),
+      uniqueViewers: posts.reduce((sum, post) => sum + post.viewers.length, 0),
+      postStats: posts.map(post => ({
+        title: post.title,
+        likes: post.likes.length,
+        views: post.viewCount,
+        uniqueViewers: post.viewers.length,
+        createdAt: post.createdAt
+      }))
+    };
+
+    res.json(stats);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+    

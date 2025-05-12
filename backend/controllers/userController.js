@@ -143,28 +143,34 @@ export const updateProfilePicture = async (req, res) => {
 
   export const getUserDashboard = async (req, res) => {
     try {
-      const userId = req.user.id; // Get the logged-in user's ID from the token
+      const userId = req.user.id;
   
-      // Fetch all posts by the user
-      const posts = await Post.find({ author: userId });
+      const posts = await Post.find({ author: userId }).lean(); // Add .lean() for better performance
   
-      // Calculate stats
       const totalPosts = posts.length;
-      const totalLikes = posts.reduce((sum, post) => sum + (post.likes?.length || 0), 0); // Count likes
-      const totalViews = posts.reduce((sum, post) => sum + (post.views || 0), 0);
+      const totalLikes = posts.reduce((sum, post) => sum + (post.likes?.length || 0), 0);
       
-      // Prepare detailed stats for each post
+      // NEW: Calculate unique viewers across all posts
+      const uniqueViewers = new Set();
+      posts.forEach(post => {
+        post.viewers?.forEach(viewerId => uniqueViewers.add(viewerId.toString()));
+      });
+  
       const postStats = posts.map((post) => ({
         title: post.title,
-        likes: post.likes?.length || 0, // Return count of likes instead of array
+        likes: post.likes?.length || 0,
         views: post.views || 0,
+        // NEW: Add unique viewers per post
+        uniqueViewers: post.viewers?.length || 0,
         createdAt: post.createdAt,
       }));
   
       res.status(200).json({
         totalPosts,
         totalLikes,
-        totalViews,
+        totalViews: posts.reduce((sum, post) => sum + (post.views || 0), 0),
+        // NEW: Add unique viewers count
+        uniqueViewers: uniqueViewers.size,
         postStats,
       });
     } catch (error) {

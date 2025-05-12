@@ -23,16 +23,13 @@ function PostDetails() {
   const [showComments, setShowComments] = useState(false);
   const userData = JSON.parse(localStorage.getItem("userData")) || {};
 
-  // Update your useEffect hook to debug the API response
 useEffect(() => {
   const fetchPostAndComments = async () => {
     try {
       setLoading(true);
       
-      // Debug: Log the requests being made
       console.log(`Fetching post ${postId} and comments`);
-      
-      // Fetch post and comments separately (easier to debug)
+      // Fetch post and comments separately 
       const postResponse = await axios.get(`http://localhost:5000/api/posts/${postId}`);
       console.log('Post response:', postResponse.data);
       
@@ -41,7 +38,6 @@ useEffect(() => {
       
       setPost(postResponse.data);
       
-      // Handle different possible response structures
       let fetchedComments = [];
       
       if (Array.isArray(commentsResponse.data)) {
@@ -54,7 +50,6 @@ useEffect(() => {
         // Case 3: Object with data containing comments
         fetchedComments = commentsResponse.data.data;
       }
-      
       // Ensure each comment has a user object
       setComments(fetchedComments.map(comment => ({
         ...comment,
@@ -70,6 +65,20 @@ useEffect(() => {
   };
 
   fetchPostAndComments();
+}, [postId]);
+
+useEffect(() => {
+  const trackView = async () => {
+    try {
+      await axios.post(`http://localhost:5000/api/posts/${postId}/view`);
+    } catch (err) {
+      console.error("View tracking failed:", err);
+    }
+  };
+
+  if (postId) {
+    trackView();
+  }
 }, [postId]);
 
   const handleShare = () => {
@@ -298,7 +307,6 @@ useEffect(() => {
               </button>
             </form>
 
-           {/* Comments List */}
 {/* Comments List */}
 <div className="space-y-4">
   {comments.length === 0 ? (
@@ -311,7 +319,7 @@ useEffect(() => {
         : new Date();
         
       return (
-        <div key={comment._id || Math.random()} className="p-4 bg-gray-50 rounded-lg">
+        <div key={comment._id || Math.random()} className="p-4  rounded-lg border-b border-gray-300">
           <div className="flex justify-between items-start">
             <div>
               <p className="font-medium">

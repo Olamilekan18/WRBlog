@@ -32,6 +32,14 @@ const postSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  viewers:[{
+    type : String,
+    required: true
+  }],
+  viewCount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 export default mongoose.model("Post", postSchema);
