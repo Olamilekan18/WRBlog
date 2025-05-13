@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import User from "../models/userModel.js"; 
 import Post from '../models/Post.js'; 
-import { getUserProfile, updateUserProfile, getAllUsers, updateProfilePicture, uploadProfilePicture, getCurrentUserProfile } from "../controllers/userController.js";
+import { getUserProfile, updateUserProfile, getAllUsers, updateProfilePicture, uploadProfilePicture, getCurrentUserProfile, postSavePost, getSavedPosts } from "../controllers/userController.js";
 import { upload } from "../middleware/uploadMiddleware.js";
 // import Post from "../models/Post.js";
 import { getUserDashboard } from "../controllers/userController.js";
@@ -104,4 +104,7 @@ router.post("/login", async (req, res) => {
           router.get('/:id', getUserProfile);
           router.put('/profile', protect, updateUserProfile);
           router.patch('/profile/upload', protect, upload.single("image"), updateProfilePicture);
+          router.post('/:id/save', protect, postSavePost)
+          router.get('/user/saved-posts', protect, getSavedPosts);
+          
 export default router;

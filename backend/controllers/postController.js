@@ -30,7 +30,7 @@ export const getPosts = async (req, res) => {
     const posts = await Post.find().populate("author", "name email").select("title content tags author createdAt updatedAt").sort({ createdAt: -1 });
     res.status(200).json(posts);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching posts", error });
+    res.status(500).json({ message: "Error fetching posts, please connect to the internet", error });
   }
 };
 
@@ -230,29 +230,3 @@ export const deletePost = async (req,res) =>
     }
       
     }
-  
-    // Modify your dashboard API endpoint to include unique viewers
-export const dashboard =  async (req, res) => {
-  try {
-    const posts = await Post.find({ author: req.user._id });
-    
-    const stats = {
-      totalPosts: posts.length,
-      totalLikes: posts.reduce((sum, post) => sum + post.likes.length, 0),
-      totalViews: posts.reduce((sum, post) => sum + post.viewCount, 0),
-      uniqueViewers: posts.reduce((sum, post) => sum + post.viewers.length, 0),
-      postStats: posts.map(post => ({
-        title: post.title,
-        likes: post.likes.length,
-        views: post.viewCount,
-        uniqueViewers: post.viewers.length,
-        createdAt: post.createdAt
-      }))
-    };
-
-    res.json(stats);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-}
-    

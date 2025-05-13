@@ -223,6 +223,33 @@ useEffect(() => {
     }
   }
 };
+const handleSavePost = async () => {
+  setSaved(!saved);
+  const userData = JSON.parse(localStorage.getItem("userData"));
+
+  if (!userData?.token) {
+    toast.error("Please login to save posts");
+    return;
+  }
+
+  try {
+    const response = await axios.post(
+      `http://localhost:5000/api/users/${postId}/save`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${userData.token}`
+        }
+      }
+    );
+    setSaved(response.data.saved);
+    toast.success("Post saved!");
+  } catch (error) {
+    console.error(error);
+    toast.error("Failed to save post");
+  }
+};
+
 
   if (loading) return <p className="text-center py-10 text-gray-500">Loading...</p>;
   if (error) return <p className="text-red-500 text-center py-10">{error}</p>;
@@ -262,7 +289,8 @@ useEffect(() => {
           </button>
 
           <button
-            onClick={() => setSaved(!saved)}
+          onClick ={handleSavePost}
+            // onClick={() => setSaved(!saved)}
             className={`flex items-center gap-2 text-sm ${
               saved ? "text-yellow-600" : "text-gray-600 hover:text-yellow-600"
             }`}
@@ -301,7 +329,7 @@ useEffect(() => {
               />
               <button
                 type="submit"
-                className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                className="mt-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
               >
                 Post Comment
               </button>
@@ -325,7 +353,7 @@ useEffect(() => {
               <p className="font-medium">
                 {comment.user?.name || "Anonymous"}
               </p>
-              <p className="text-gray-700 mt-1">{comment.content}</p>
+              <p className=" mt-1">{comment.content}</p>
             </div>
             {
   comment.user?._id && userData?.userId && comment.user._id === userData.userId && (

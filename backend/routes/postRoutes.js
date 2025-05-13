@@ -1,6 +1,6 @@
 import express from "express";
 import protect from "../middleware/authMiddleware.js"; // Import middleware
-import { createPost, getPosts, getPostById, getPostsByUserId, getPostStats, updatePost, deletePost, likePost, postView, dashboard } from "../controllers/postController.js";
+import { createPost, getPosts, getPostById, getPostsByUserId, getPostStats, updatePost, deletePost, likePost, postView } from "../controllers/postController.js";
 import { createComment, getComments, updateComment, getCommentById, deleteComment } from "../controllers/commentController.js";
 const router = express.Router();
 
@@ -14,11 +14,7 @@ router.delete("/:postId", protect, deletePost); // Delete a post
 
 //LIKE ROUTE
 router.post("/:postId/like", protect, likePost); // Like a post
-
-
-
-    router.get("/s", getPostStats)
-    router.get("/:postId", getPostById); // Route to get a post by ID
+router.get("/:postId", getPostById); // Route to get a post by ID
 // Comment routes
 router.get("/:postId/comments", getComments); // Get all comments for a post
 router.post("/:postId/comments", protect, createComment); // Add a new comment to a post
@@ -26,6 +22,4 @@ router.get("/:postId/comments/:commentId", getCommentById); // Get a single comm
 router.put("/:postId/comments/:commentId", protect, updateComment); // Update a comment on a post
 router.delete("/:postId/comments/:commentId", protect, deleteComment); // Delete a comment from a post
 router.post("/:postId/view", postView); // Increment post view count
-router.get("/dashboard", protect, dashboard); // Get post stats for the dashboard
-
 export default router;

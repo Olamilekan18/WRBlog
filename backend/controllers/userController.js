@@ -178,3 +178,33 @@ export const updateProfilePicture = async (req, res) => {
       res.status(500).json({ message: "Error fetching user dashboard", error });
     }
   };
+
+  export const postSavePost = async(req, res)=>{
+    try {
+      const postId = req.params.id;
+      const user = await User.findById(req.user.id);
+  
+      if (!user.savedPosts.includes(postId)) {
+        user.savedPosts.push(postId);
+        await user.save();
+      }
+  
+      res.status(200).json({ success: true, message: "Post saved" });
+    } catch (err) {
+      res.status(500).json({ success: false, message: "Server error" });
+    }
+  }
+
+  export const getSavedPosts = async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id).populate('savedPosts');
+  
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      res.status(200).json({sucess: true,  savedPosts: user.savedPosts });
+    } catch (error) {
+      res.status(500).json({ message: "Server error", error });
+    }
+  };

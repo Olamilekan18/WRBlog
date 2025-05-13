@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import HomeNavbar from "../Components/homeNavbar";
 import { ClipLoader } from "react-spinners";
-
+import { useNavigate } from "react-router-dom";
 function Dashboard() {
   const [stats, setStats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [savedPosts, setSavedPosts] = useState([]); 
+  const [expanded, setExpanded] = useState(false)
+  const navigate = useNavigate();
   useEffect(() => {
     // Fetch user stats
     const fetchStats = async () => {
@@ -32,6 +34,27 @@ function Dashboard() {
  
   console.log(stats)
 
+  useEffect(() => {
+    const fetchSavedPosts = async () => {
+      const userData = JSON.parse(localStorage.getItem("userData"));
+  
+      try {
+        const res = await axios.get("http://localhost:5000/api/users/user/saved-posts", {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+          },
+        });
+  
+        setSavedPosts(res.data.savedPosts);
+      } catch (err) {
+        console.error("Failed to load saved posts", err);
+      }
+    };
+  
+    fetchSavedPosts();
+  }, []);
+  
+
 
   if (loading)
     return (
@@ -42,32 +65,59 @@ function Dashboard() {
 
   if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
 
-  return (
-    <div className="min-h-screen">
-      <HomeNavbar />
-      <div className="p-6  min-h-screen text-gray-800">
-      <h1 className="text-3xl text-green-600 font-bold mb-6">📊 Your Blog Dashboard</h1>
-
-     
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <SummaryCard title="Total Posts" value={stats.totalPosts} />
-        <SummaryCard title="Total Likes" value={stats.totalLikes} />
-        {/* <SummaryCard title="Unique Viewers" value={stats.uniqueViewers} /> */}
-        <SummaryCard title="Unique Viewers" value={stats.uniqueViewers} />
-      </div>
-
-      <div>
-        <h2 className="text-xl text-green-600 font-semibold mb-4">📝 Recent Posts</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {stats.postStats.map((post, index) => (
-            <PostCard key={index} post={post} />
-          ))}
+    return (
+      <div className="min-h-screen">
+        <HomeNavbar />
+        <div className="p-6 min-h-screen text-gray-800 max-w-7xl mx-auto">
+          {/* Keep everything inside here */}
+          
+          <h1 className="text-3xl text-green-600 font-bold mb-6">📊 Your Blog Dashboard</h1>
+    
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+            <SummaryCard title="Total Posts" value={stats.totalPosts} />
+            <SummaryCard title="Total Likes" value={stats.totalLikes} />
+            <SummaryCard title="Unique Viewers" value={stats.uniqueViewers} />
+          </div>
+    
+          <div>
+            <h2 className="text-xl text-green-600 font-semibold mb-4">📝 Recent Posts</h2>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {stats.postStats.map((post, index) => (
+                <PostCard key={index} post={post} />
+              ))}
+            </div>
+          </div>
+    
+          {/* 🟩 SAVED POSTS: move inside the same container */}
+          <div className="mt-12">
+            <h2 className="text-2xl font-semibold mb-6">Your Saved Posts</h2>
+    
+            {Array.isArray(savedPosts) && savedPosts.length === 0 ? (
+              <p className="text-gray-600">You haven't saved any posts yet.</p>
+            ) : (
+              <div
+              
+               className="grid grid-cols-1 cursor-pointer sm:grid-cols-2 gap-4">
+                {savedPosts.map((post) => (
+                  <div key={post._id} onClick={()=>navigate(`/posts/${post._id}`)} className="border p-4 rounded-lg shadow bg-white">
+                    <p>{post.title}</p>
+                    <div
+                      className="text-gray-800 prose max-w-none"
+                      dangerouslySetInnerHTML={{ __html: post.content }}
+                    />
+                    <p className="text-xs text-gray-500 mt-2">
+                      Posted on {new Date(post.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+    
         </div>
       </div>
-    </div>
-      
-    </div>
-  );
+    );
+    
 }
 
 const SummaryCard = ({ title, value }) => (
