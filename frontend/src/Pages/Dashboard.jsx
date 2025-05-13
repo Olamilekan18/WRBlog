@@ -90,7 +90,7 @@ function Dashboard() {
     
           {/* 🟩 SAVED POSTS: move inside the same container */}
           <div className="mt-12">
-            <h2 className="text-2xl font-semibold mb-6">Your Saved Posts</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-green-700">Your Saved Posts</h2>
     
             {Array.isArray(savedPosts) && savedPosts.length === 0 ? (
               <p className="text-gray-600">You haven't saved any posts yet.</p>
@@ -99,7 +99,7 @@ function Dashboard() {
               
                className="grid grid-cols-1 cursor-pointer sm:grid-cols-2 gap-4">
                 {savedPosts.map((post) => (
-                  <div key={post._id} onClick={()=>navigate(`/posts/${post._id}`)} className="border p-4 rounded-lg shadow bg-white">
+                  <div key={post._id} onClick={()=>navigate(`/posts/${post._id}`)} className="border p-4 rounded-lg shadow bg-white hover:shadow-neutral-500 ">
                     <p>{post.title}</p>
                     <div
                       className="text-gray-800 prose max-w-none"
