@@ -8,7 +8,6 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [savedPosts, setSavedPosts] = useState([]); 
-  const [expanded, setExpanded] = useState(false)
   const navigate = useNavigate();
   useEffect(() => {
     // Fetch user stats
@@ -69,7 +68,7 @@ function Dashboard() {
       <div className="min-h-screen">
         <HomeNavbar />
         <div className="p-6 min-h-screen text-gray-800 max-w-7xl mx-auto">
-          {/* Keep everything inside here */}
+          
           
           <h1 className="text-3xl text-green-600 font-bold mb-6">📊 Your Blog Dashboard</h1>
     
@@ -88,7 +87,7 @@ function Dashboard() {
             </div>
           </div>
     
-          {/* 🟩 SAVED POSTS: move inside the same container */}
+          
           <div className="mt-12">
             <h2 className="text-2xl font-semibold mb-6 text-green-700">Your Saved Posts</h2>
     

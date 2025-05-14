@@ -26,10 +26,6 @@ const { isDark, toggle } = useDarkMode();
     navigate(`/posts/${postId}`);
   };
 
-  const handleLogin = () => {
-    navigate("/login");
-  }
-
   const handleLogout = () => {
     localStorage.removeItem("userData"); // Clear user data from localStorage
     window.location.href = "/login"; // Redirect to login page

@@ -2,7 +2,8 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
-
+import { sendPasswordChangedEmail } from "../emailSender.js";
+// import { sendPasswordChangedEmail } from "../emailSender.js";
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -93,6 +94,7 @@ export const forgotPassword = async (req, res) => {
           subject: 'Password Reset',
           text: `You requested a password reset. Please click the following link to reset your password: ${resetUrl}`
       };
+ 
 
       await transporter.sendMail(mailOptions);
 
@@ -105,22 +107,17 @@ export const forgotPassword = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   try {
-      // Decode URI component in case token was encoded
-      const token = decodeURIComponent(req.params.token);
+      console.log("Full Request Body:", req.body); // Debug log
+
+      const token = req.params.token; // Try without decodeURIComponent first
       const { password, confirmPassword } = req.body;
 
-      console.log("Reset Password Request:", { 
-        token: token, 
-        passwordLength: password?.length 
-      });
-
-      // Validation
       if (!password || !confirmPassword) {
+          console.log("Missing fields detected:", { // Debug which field is missing
+              hasPassword: !!password,
+              hasConfirmPassword: !!confirmPassword
+          });
           return res.status(400).json({ message: "All fields are required" });
-      }
-
-      if (password !== confirmPassword) {
-          return res.status(400).json({ message: "Passwords do not match" });
       }
 
       // Hash token

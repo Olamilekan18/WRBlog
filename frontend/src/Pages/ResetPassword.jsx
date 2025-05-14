@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState('');
@@ -17,16 +18,30 @@ export default function ResetPasswordPage() {
     }
     
     try {
-      await axios.post(`/api/auth/reset-password/${token}`, { password });
+      await axios.post(
+  `/api/auth/reset-password/${token}`, 
+  { 
+    password,              // ✅ Use the state variables
+    confirmPassword        // ✅ No need for JSON.stringify
+  },
+  {
+    headers: {
+      'Content-Type': 'application/json', // ✅ Axios accepts headers here
+    },
+  }
+);
       setMessage('Password reset successfully');
+      toast.success("Password reset successful")
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
       setError(err.response?.data?.message || 'Error resetting password');
+      toast.error("Password reset failed")
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <ToastContainer/>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Reset Password
