@@ -3,7 +3,7 @@ import { Menu, X, Moon, Sun } from "lucide-react";
 import { useDarkMode } from "../context/DarkModeContext";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({scrollToAbout, scrollToContact}) => {
 //   const { darkMode, setDarkMode } = useDarkMode();
 const { isDark, toggle } = useDarkMode();
   const navigate = useNavigate();
@@ -45,20 +45,28 @@ const { isDark, toggle } = useDarkMode();
 
       {/* Desktop Navigation Links */}
       <ul className="hidden md:flex space-x-6">
-        <li>
-          <a href="#" className="border-b-2 border-transparent hover:border-green-500 transition">
-            About Us
-          </a>
-        </li>
+       <li>
+  <button
+onClick={() => scrollToAbout()}  
+  className="border-b-2 border-transparent hover:border-green-500 transition"
+  >
+    About Us
+  </button>
+</li>
+
         <li>
           <a href="/all-posts" className="border-b-2 border-transparent hover:border-green-500 transition">
             View Blogs
           </a>
         </li>
         <li>
-          <a href="#" className="border-b-2 border-transparent hover:border-green-500 transition">
-            Contact
-          </a>
+         
+<button 
+  onClick={() => scrollToContact()}  // Call the scrollToContact function when clicked
+  className="border-b-2 border-transparent hover:border-green-500 transition cursor-pointer"
+>
+  Contact
+</button>
         </li>
       </ul>
 

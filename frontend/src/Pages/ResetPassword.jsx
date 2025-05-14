@@ -21,12 +21,12 @@ export default function ResetPasswordPage() {
       await axios.post(
   `/api/auth/reset-password/${token}`, 
   { 
-    password,              // ✅ Use the state variables
-    confirmPassword        // ✅ No need for JSON.stringify
+    password,             
+    confirmPassword       
   },
   {
     headers: {
-      'Content-Type': 'application/json', // ✅ Axios accepts headers here
+      'Content-Type': 'application/json', 
     },
   }
 );

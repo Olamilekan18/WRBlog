@@ -1,13 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { DarkModeProvider } from "./context/DarkModeContext.jsx";
-import Navbar from "./Components/Navbar";
-import HeroSection from "./Components/HeroSection";
-import AboutUsSection from "./Components/AboutUsSection";
-import FeatureSection from "./Components/FeatureSection.jsx";
-import FeaturedPostsSection from "./Components/FeaturedPosts.jsx";
-import TestimonialsSection from "./Components/Testimonials.jsx";
-import Newsletter from "./Components/NewsLetter.jsx";
 import AuthForm from "./Pages/Signup.jsx";
 import ForgotPassword from "./Pages/ForgotPassword.jsx";
 import ResetPassword from "./Pages/ResetPassword.jsx";
@@ -17,7 +10,8 @@ import "./App.css";
 import AllPosts from "./Pages/AllPosts.jsx";
 import Editor from "./Pages/Editor.jsx";
 import PostDetails from "./Pages/PostDetails.jsx";
-import ProtectedRoute from "./Components/ProtectedRoute"; // Import the ProtectedRoute component
+import ProtectedRoute from "./Components/ProtectedRoute"; 
+import LandingPage from "./Pages/LandingPage.jsx";
 
 function App() {
   return (
@@ -29,15 +23,7 @@ function App() {
             <Route
               path="/"
               element={
-                <>
-                  <Navbar />
-                  <HeroSection />
-                  <AboutUsSection />
-                  <FeatureSection />
-                  <FeaturedPostsSection />
-                  <TestimonialsSection />
-                  <Newsletter />
-                </>
+               <LandingPage/>
               }
             />
             <Route path="/signup" element={<AuthForm type="signup" />} />
