@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import HomeNavbar from "../Components/homeNavbar";
+import HomeNavbar from "../Components/HomeNavbar.jsx";
 import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 

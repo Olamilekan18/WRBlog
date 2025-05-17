@@ -2,7 +2,7 @@ import { useState, useRef, useMemo } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import HomeNavbar from "../Components/homeNavbar.jsx";
+import HomeNavbar from "../Components/HomeNavbar.jsx";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
