@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import HomeNavbar from "../Components/homeNavbar";
+import HomeNavbar from "../Components/HomeNavbar.jsx";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
 import { ToastContainer, toast } from "react-toastify";
