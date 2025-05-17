@@ -224,7 +224,7 @@ useEffect(() => {
   }
 };
 const handleSavePost = async () => {
-  setSaved(!saved);
+    setSaved(!saved);
   const userData = JSON.parse(localStorage.getItem("userData"));
 
   if (!userData?.token) {

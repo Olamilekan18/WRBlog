@@ -48,7 +48,7 @@ const { isDark, toggle } = useDarkMode();
        <li>
   <button
 onClick={() => scrollToAbout()}  
-  className="border-b-2 border-transparent hover:border-green-500 transition"
+  className="border-b-2 border-transparent hover:border-green-500 transition cursor-pointer"
   >
     About Us
   </button>
@@ -115,9 +115,11 @@ onClick={() => scrollToAbout()}
               </a>
             </li>
             <li>
-              <a href="#" className="block text-lg border-b-2 border-transparent hover:border-green-500">
+              <button 
+               onClick={() => scrollToContact()}  
+               className="block text-lg border-b-2 border-transparent hover:border-green-500">
                 Contact
-              </a>
+              </button>
             </li>
           </ul>
           <div className="mt-6">

@@ -6,6 +6,7 @@ import { ClipLoader } from "react-spinners";
 import { ToastContainer, toast } from "react-toastify";
 
 function Home() {
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [posts, setPosts] = useState([]);
@@ -21,7 +22,7 @@ function Home() {
     // Fetch posts by user ID
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/posts/user/${id}`, {
+        const response = await axios.get(`${backendUrl}/api/posts/user/${id}`, {
           headers: {
             Authorization: `Bearer ${userData.token}`, 
           },
@@ -42,7 +43,7 @@ function Home() {
     const userData = JSON.parse(localStorage.getItem("userData"));
 
     try {
-      await axios.delete(`http://localhost:5000/api/posts/${postId}`, {
+      await axios.delete(`${backendUrl}/api/posts/${postId}`, {
         headers: {
           Authorization: `Bearer ${userData.token}`,
         },
