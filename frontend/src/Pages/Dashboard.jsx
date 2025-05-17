@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import HomeNavbar from "../Components/homeNavbar";
+import HomeNavbar from "../Components/HomeNavbar.jsx";
 import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 function Dashboard() {
@@ -11,13 +11,12 @@ function Dashboard() {
   const [savedPosts, setSavedPosts] = useState([]); 
   const navigate = useNavigate();
   useEffect(() => {
-    // Fetch user stats
     const fetchStats = async () => {
-      const userData = JSON.parse(localStorage.getItem("userData")); // Get token from localStorage
+      const userData = JSON.parse(localStorage.getItem("userData")); 
       try {
         const response = await axios.get(`${backendUrl}/api/users/dashboard`, {
           headers: {
-            Authorization: `Bearer ${userData.token}`, // Pass the token for authentication
+            Authorization: `Bearer ${userData.token}`, 
           },
         });
 
