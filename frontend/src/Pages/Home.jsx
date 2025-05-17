@@ -16,7 +16,6 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("userData"));
     const id = userData.userId;
-    console.log(id);
     if (userData?.name) setUserName(userData.name);
 
     // Fetch posts by user ID
@@ -52,7 +51,6 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
       setLoading(false)
       toast.success("Post deleted successfully!");
     } catch (error) {
-      console.log("something went wrong")
       toast.error(error.response?.data?.message || "Failed to delete post");
       setLoading(false)
     }

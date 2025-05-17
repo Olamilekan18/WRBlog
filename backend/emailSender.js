@@ -1,6 +1,5 @@
 import nodemailer from 'nodemailer';
 
-// Configure your email service (Gmail example)
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {

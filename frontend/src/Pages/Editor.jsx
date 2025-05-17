@@ -2,19 +2,18 @@ import { useState, useRef, useMemo } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 import HomeNavbar from "../Components/homeNavbar.jsx";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Editor() {
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const location = useLocation();
   const post = location.state?.post || null;
 
   const [title, setTitle] = useState(post?.title || ""); 
   const [content, setContent] = useState(post?.content || ""); 
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const quillRef = useRef();
   const navigate = useNavigate();
@@ -32,7 +31,7 @@ export default function Editor() {
         formData.append("image", file);
 
         try {
-          const res = await fetch("http://localhost:5000/api/upload", {
+          const res = await fetch(`${backendUrl}/api/upload`, {
             method: "POST",
             body: formData,
           });
@@ -107,8 +106,8 @@ export default function Editor() {
 
     try {
       const url = post
-        ? `http://localhost:5000/api/posts/${post._id}` // Update existing post
-        : "http://localhost:5000/api/posts"; // Create new post
+        ? `${backendUrl}/api/posts/${post._id}` // Update existing post
+        : `${backendUrl}/api/posts`; // Create new post
 
       const method = post ? "PUT" : "POST"; // Use PUT for editing, POST for creating
 

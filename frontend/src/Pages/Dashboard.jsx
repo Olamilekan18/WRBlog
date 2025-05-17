@@ -4,6 +4,7 @@ import HomeNavbar from "../Components/homeNavbar";
 import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 function Dashboard() {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [stats, setStats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,7 +15,7 @@ function Dashboard() {
     const fetchStats = async () => {
       const userData = JSON.parse(localStorage.getItem("userData")); // Get token from localStorage
       try {
-        const response = await axios.get("http://localhost:5000/api/users/dashboard", {
+        const response = await axios.get(`${backendUrl}/api/users/dashboard`, {
           headers: {
             Authorization: `Bearer ${userData.token}`, // Pass the token for authentication
           },
@@ -31,14 +32,13 @@ function Dashboard() {
     fetchStats();
   }, []);
  
-  console.log(stats)
 
   useEffect(() => {
     const fetchSavedPosts = async () => {
       const userData = JSON.parse(localStorage.getItem("userData"));
   
       try {
-        const res = await axios.get("http://localhost:5000/api/users/user/saved-posts", {
+        const res = await axios.get(`${backendUrl}/api/users/user/saved-posts`, {
           headers: {
             Authorization: `Bearer ${userData.token}`,
           },

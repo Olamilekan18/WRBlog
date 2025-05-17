@@ -11,8 +11,6 @@ export default function LandingPage() {
     const contactRef = useRef(null);
 
     useEffect(() => {
-  console.log('About ref:', aboutRef.current);
-  console.log('Contact ref:', contactRef.current);
 }, []);
 
 
@@ -24,8 +22,6 @@ const scrollToAbout = () => {
     contactRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  console.log("About ref:", aboutRef.current);
-    console.log("Contact ref:", contactRef.current);
 
     return (
         <div>

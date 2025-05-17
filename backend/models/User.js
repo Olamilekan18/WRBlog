@@ -41,7 +41,6 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// Check if model is already defined
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 export default User;

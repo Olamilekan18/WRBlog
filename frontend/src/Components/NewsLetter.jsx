@@ -6,6 +6,7 @@ import {FaXTwitter} from "react-icons/fa6"
 
 
 const Newsletter = () => {
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const { isDark } = useDarkMode(); // Use the context to get the dark mode state
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -15,7 +16,7 @@ const Newsletter = () => {
     e.preventDefault();
     setMessage("");
     try {
-      const { data } = await axios.post("http://localhost:5000/api/subscribe", { email });
+      const { data } = await axios.post(`${backendUrl}/api/subscribe`, { email });
       setMessage(data.message);
       setEmail("");
       setIsError(false);

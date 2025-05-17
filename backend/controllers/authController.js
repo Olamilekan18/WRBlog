@@ -62,24 +62,19 @@ export const forgotPassword = async (req, res) => {
           return res.status(404).json({ message: 'User not found' });
       }
 
-      // 2. Generate reset token
       const resetToken = crypto.randomBytes(32).toString('hex');
       const passwordResetToken = crypto
           .createHash('sha256')
           .update(resetToken)
           .digest('hex');
 
-      // 3. Set token expiry (1 hour)
-      const passwordResetExpires = Date.now() + 3600000; // 1 hour from now
+      const passwordResetExpires = Date.now() + 3600000; 
 
-      // 4. Save to database
       user.passwordResetToken = passwordResetToken;
       user.passwordResetExpires = passwordResetExpires;
       await user.save(); 
-      // 5. Create reset URL
-      const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
-      // 6. Send email
       const transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
@@ -107,13 +102,12 @@ export const forgotPassword = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   try {
-      console.log("Full Request Body:", req.body); // Debug log
 
-      const token = req.params.token; // Try without decodeURIComponent first
+      const token = req.params.token; 
       const { password, confirmPassword } = req.body;
 
       if (!password || !confirmPassword) {
-          console.log("Missing fields detected:", { // Debug which field is missing
+          console.log("Missing fields detected:", { 
               hasPassword: !!password,
               hasConfirmPassword: !!confirmPassword
           });

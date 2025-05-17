@@ -5,21 +5,15 @@ import mongoose from 'mongoose';
 // Create a new Comment
 export const createComment = async (req, res) => {
     try {
-        // Debugging: Log incoming request details
-        console.log("Request params:", req.params);
-        console.log("Request body:", req.body);
-        console.log("Authenticated user ID:", req.user.id);
 
         const {  postId } = req.params;
         const { content } = req.body;
         const userId = req.user.id;
 
         
-        console.log("Validating postId:", postId); 
 
         // Validate post ID format
         if (!mongoose.Types.ObjectId.isValid(postId)) {
-            console.log(`Invalid post ID received: ${postId}`);
             return res.status(400).json({ 
                 success: false, 
                 message: "Invalid post ID format",
@@ -83,7 +77,6 @@ export const getComments = async (req, res) => {
     try {
         const { postId } = req.params; 
         
-        console.log("Received postId:", postId); 
         
         if (!mongoose.Types.ObjectId.isValid(postId)) {
             return res.status(400).json({ 

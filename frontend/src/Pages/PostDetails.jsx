@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 
 function PostDetails() {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const { postId } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -28,13 +29,10 @@ useEffect(() => {
     try {
       setLoading(true);
       
-      console.log(`Fetching post ${postId} and comments`);
       // Fetch post and comments separately 
-      const postResponse = await axios.get(`http://localhost:5000/api/posts/${postId}`);
-      console.log('Post response:', postResponse.data);
+      const postResponse = await axios.get(`${backendUrl}/api/posts/${postId}`);
       
-      const commentsResponse = await axios.get(`http://localhost:5000/api/posts/${postId}/comments`);
-      console.log('Comments response:', commentsResponse.data);
+      const commentsResponse = await axios.get(`${backendUrl}/api/posts/${postId}/comments`);
       
       setPost(postResponse.data);
       
@@ -70,7 +68,7 @@ useEffect(() => {
 useEffect(() => {
   const trackView = async () => {
     try {
-      await axios.post(`http://localhost:5000/api/posts/${postId}/view`);
+      await axios.post(`${backendUrl}/api/posts/${postId}/view`);
     } catch (err) {
       console.error("View tracking failed:", err);
     }
@@ -103,7 +101,7 @@ useEffect(() => {
       }
   
       const response = await axios.post(
-        `http://localhost:5000/api/posts/${postId}/like`,
+        `${backendUrl}/api/posts/${postId}/like`,
         {},
         {
           headers: {
@@ -139,7 +137,7 @@ useEffect(() => {
       }
   
       const response = await axios.post(
-        `http://localhost:5000/api/posts/${postId}/comments`,
+        `${backendUrl}/api/posts/${postId}/comments`,
         { content: newComment },
         {
           headers: {
@@ -186,10 +184,9 @@ useEffect(() => {
       return;
     }
 
-    console.log("Attempting to delete comment:", commentId); // Debug log
     
     const response = await axios.delete(
-      `http://localhost:5000/api/posts/${postId}/comments/${commentId}`,
+      `${backendUrl}/api/posts/${postId}/comments/${commentId}`,
       {
         headers: {
           Authorization: `Bearer ${userData.token}`,
@@ -197,7 +194,6 @@ useEffect(() => {
       }
     );
 
-    console.log("Delete response:", response.data); // Debug log
     
     if (response.data.success) {
       setComments(comments.filter(comment => comment._id !== commentId));
@@ -234,7 +230,7 @@ const handleSavePost = async () => {
 
   try {
     const response = await axios.post(
-      `http://localhost:5000/api/users/${postId}/save`,
+      `${backendUrl}/api/users/${postId}/save`,
       {},
       {
         headers: {

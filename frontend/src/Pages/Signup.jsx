@@ -2,11 +2,11 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ForgotPassword from "../Components/ForgotPassword";
-import HomeNavbar from "../Components/homeNavbar";
 import Navbar from "../Components/Navbar";
 
 const AuthForm = ({ isDark, type, onAuthSuccess }) => {
-    axios.defaults.baseURL = "http://localhost:5000"; 
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    axios.defaults.baseURL = `${backendUrl}`; 
   const [formData, setFormData] = useState({ 
     email: "", 
     password: "", 
@@ -32,8 +32,6 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
         setIsLoading(true);
       
       const { data } = await axios.post(endpoint, formData);
-      // console.log("Backend response:", data);
-      console.log(data)
       // Store user data and token
       localStorage.setItem("userData", JSON.stringify({
         userId: data.userId,
@@ -41,7 +39,6 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
         email: data.email, 
         token: data.token
       }));
-      console.log('User data saved', localStorage.getItem("userData"));
       
       // Set authorization header for future requests
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;

@@ -29,7 +29,7 @@ A full-stack blogging platform where users can read, write, and manage blog post
 ### Backend Setup
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/blog-app.git
+git clone https://github.com/Olamilekan18/WRBlog.git
 cd blog-app/backend
 
 # Install dependencies
