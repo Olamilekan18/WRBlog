@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import HomeNavbar from "../Components/homeNavbar";
+import HomeNavbar from "../Components/HomeNavbar.jsx";
 import { ToastContainer, toast } from "react-toastify";
 import {
   Heart,
@@ -39,16 +39,16 @@ useEffect(() => {
       let fetchedComments = [];
       
       if (Array.isArray(commentsResponse.data)) {
-        // Case 1: Direct array of comments
+  
         fetchedComments = commentsResponse.data;
       } else if (commentsResponse.data?.comments) {
-        // Case 2: Object with comments array
+       
         fetchedComments = commentsResponse.data.comments;
       } else if (commentsResponse.data?.data) {
-        // Case 3: Object with data containing comments
+       
         fetchedComments = commentsResponse.data.data;
       }
-      // Ensure each comment has a user object
+      
       setComments(fetchedComments.map(comment => ({
         ...comment,
         user: comment.user || { _id: null, name: "Anonymous" }
