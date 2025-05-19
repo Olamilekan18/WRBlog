@@ -29,7 +29,6 @@ const { isDark, toggle } = useDarkMode();
   const handleLogout = () => {
     localStorage.removeItem("userData"); // Clear user data from localStorage
     navigate("/login"); // Redirect to login page
-    // window.location.href = "/login"; 
   };
 
   const handleDashboard = () =>{
@@ -46,6 +45,20 @@ const { isDark, toggle } = useDarkMode();
 
   const goHome = () =>{
     navigate('/home')
+  }
+
+  const handleAboutUs = () => {
+    navigate("/aboutUs");
+  }
+
+  const handleContact = () => {
+    navigate("/contact");
+  }
+  const handleallPosts = () => {
+    navigate("/all-posts");
+  }
+  const handleViewBlog = () => {
+    navigate("/all-posts");
   }
   return (
     <nav className={`flex items-center justify-between p-4 border-b shadow-md transition-colors duration-300 ${
@@ -128,7 +141,6 @@ const { isDark, toggle } = useDarkMode();
             Dashboard        </button>
       </div>
 
-      {/* Mobile Drawer */}
       {isOpen && (
         <div className={`fixed inset-0 z-50 p-6 pt-16 md:hidden ${
           isDark ? "bg-gray-900 text-white" : "bg-gray-100 text-green-700"
@@ -149,19 +161,19 @@ const { isDark, toggle } = useDarkMode();
 
           <ul className="space-y-4 mt-10">
             <li>
-              <a href="/aboutUs" className="block text-lg border-b-2 border-transparent hover:border-green-500">
+              <button onClick={handleAboutUs} className="block text-lg border-b-2 border-transparent hover:border-green-500">
                 About Us
-              </a>
+              </button>
             </li>
             <li>
-              <a href="/all-posts" className="block text-lg border-b-2 border-transparent hover:border-green-500">
+              <button onClick={handleViewBlog} className="block text-lg border-b-2 border-transparent hover:border-green-500">
                 View Blogs
-              </a>
+              </button>
             </li>
             <li>
-              <a href="/contact" className="block text-lg border-b-2 border-transparent hover:border-green-500">
+              <button onClick={handleContact} className="block text-lg border-b-2 border-transparent hover:border-green-500">
                 Contact
-              </a>
+              </button>
             </li>
           </ul>
           <div className="mt-6">

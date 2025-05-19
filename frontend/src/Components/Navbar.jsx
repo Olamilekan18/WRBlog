@@ -16,13 +16,23 @@ const { isDark, toggle } = useDarkMode();
   const handleLogin = () => {
     navigate("/login"); // Navigate to the /login route
   }
+  const handleHome = () => {
+    navigate("/home"); // Navigate to the /home route
+  }
+  const handleAllPosts = () => {
+    navigate("/all-posts"); // Navigate to the /all-posts route
+  }
+
+  const handleViewBlogs = () => {
+    navigate("/all-posts"); // Navigate to the /all-posts route
+  }
   return (
     <nav className={`flex items-center justify-between p-4 border-b shadow-md transition-colors duration-300 ${
       isDark ? "bg-gray-900 text-white border-gray-700" : "bg-gray-100 text-green-700 border-green-300"
     }`}>
       {/* Logo */}
       <div className="text-xl font-bold">
-        <a href="/">WRBlog</a>
+        <button onClick={handleHome}>WRBlog</button>
         </div>
 
       {/* Dark Mode Toggle (Desktop) */}
@@ -55,9 +65,9 @@ onClick={() => scrollToAbout()}
 </li>
 
         <li>
-          <a href="/all-posts" className="border-b-2 border-transparent hover:border-green-500 transition">
+          <button onClick={handleAllPosts} className="border-b-2 border-transparent hover:border-green-500 transition">
             View Blogs
-          </a>
+          </button>
         </li>
         <li>
          
@@ -110,9 +120,9 @@ onClick={() => scrollToAbout()}
               </a>
             </li>
             <li>
-              <a href="https://wr-blog.vercel.app/view-blogs" className="block text-lg border-b-2 border-transparent hover:border-green-500">
+              <button onClick={handleViewBlogs} className="block text-lg border-b-2 border-transparent hover:border-green-500">
                 View Blogs
-              </a>
+              </button>
             </li>
             <li>
               <button 

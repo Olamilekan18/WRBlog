@@ -30,6 +30,17 @@ const Newsletter = () => {
     }
   };
 
+  const handleAboutUs = () => {
+    navigate("/aboutUs");
+  }
+  const handleContact = () => {
+    navigate("/contact");
+  }
+  
+const handlePrivacy = () => {
+  navigate("/privacy");
+}
+
   return (
     // <section className={`py-16 px-4 transition-colors duration-300 ${isDark ? "bg-gray-800" : "bg-gray-100"}`}>
       <div className={`py-10 px-5 text-center transition-colors duration-300 ${isDark ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-900"}`}>
@@ -53,9 +64,9 @@ const Newsletter = () => {
               <div className="container mx-auto px-6 text-center">
                 {/* Navigation Links */}
                 <div className="flex justify-center space-x-6 mb-4">
-                  <a href="https://wr-blog.vercel.app/about" className="hover:underline">About Us</a>
-                  <a href="https://wr-blog.vercel.app/contact" className="hover:underline">Contact</a>
-                  <a href="https://wr-blog.vercel.app/privacy" className="hover:underline">Privacy Policy</a>
+                  <button onClick={handleAboutUs} className="hover:underline cursor-pointer">About Us</button>
+                  <button onClick={handleContact} className="hover:underline cursor-pointer">Contact</button>
+                  <button onClick={handlePrivacy} className="hover:underline cursor-pointer">Privacy Policy</button>
                 </div>
         
                 {/* Social Media Links */}
