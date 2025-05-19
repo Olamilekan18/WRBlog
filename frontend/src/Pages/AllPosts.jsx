@@ -87,7 +87,6 @@ function PostCard({ post, handlePost }) {
 
     return (
       <div className="bg-white cursor-pointer rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200">
-        {/* Post image placeholder - replace with actual image if available */}
         <div className="h-48 bg-green-200">
           {/* Post image */}
           <img src={avatar} alt={post.title} className="w-full h-full object-cover" />

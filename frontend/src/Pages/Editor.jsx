@@ -13,6 +13,7 @@ export default function Editor() {
   const post = location.state?.post || null;
 
   const [title, setTitle] = useState(post?.title || ""); 
+  const [loading, setLoading] = useState(false);
   const [content, setContent] = useState(post?.content || ""); 
   const [error, setError] = useState(false);
 
@@ -110,8 +111,7 @@ export default function Editor() {
         ? `${backendUrl}/api/posts/${post._id}` // Update existing post
         : `${backendUrl}/api/posts`; // Create new post
 
-      const method = post ? "PUT" : "POST"; // Use PUT for editing, POST for creating
-
+      const method = post ? "PUT" : "POST"; 
       const res = await fetch(url, {
         method,
         headers: {
@@ -125,11 +125,11 @@ export default function Editor() {
         const result = await res.json();
         toast.success(post ? "Post updated successfully!" : "Post created successfully!");
         setLoading(false);
-        navigate("/home"); // Redirect to home
+        navigate("/home"); 
       } else if (res.status === 401) {
         toast.error("Unauthorized. Please log in again.");
         setLoading(false);
-        navigate("/login"); // Redirect to login
+        navigate("/login"); 
       } else {
         toast.error("Failed to submit post.");
         setLoading(false);
