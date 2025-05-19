@@ -3,10 +3,12 @@ import { useDarkMode } from "../context/DarkModeContext";
 import axios from "axios";
 import { FaFacebook, FaInstagram, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import {FaXTwitter} from "react-icons/fa6"
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 
 const Newsletter = () => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    const navigate = useNavigate(); // Initialize the navigate function
   const { isDark } = useDarkMode(); // Use the context to get the dark mode state
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
