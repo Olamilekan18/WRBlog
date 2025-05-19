@@ -3,20 +3,15 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import { sendPasswordChangedEmail } from "../emailSender.js";
-// import { sendPasswordChangedEmail } from "../emailSender.js";
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // Check if user exists
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ message: "User already exists" });
 
-    // Create user
     user = new User({ name, email, password });
     await user.save();
-
-    // Generate token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
@@ -32,7 +27,6 @@ export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check user existence
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
