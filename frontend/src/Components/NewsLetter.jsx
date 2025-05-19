@@ -3,13 +3,13 @@ import { useDarkMode } from "../context/DarkModeContext";
 import axios from "axios";
 import { FaFacebook, FaInstagram, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import {FaXTwitter} from "react-icons/fa6"
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom"; 
 
 
 const Newsletter = () => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
-    const navigate = useNavigate(); // Initialize the navigate function
-  const { isDark } = useDarkMode(); // Use the context to get the dark mode state
+    const navigate = useNavigate(); 
+  const { isDark } = useDarkMode(); 
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setIsError] = useState(false);
@@ -44,7 +44,6 @@ const handlePrivacy = () => {
 }
 
   return (
-    // <section className={`py-16 px-4 transition-colors duration-300 ${isDark ? "bg-gray-800" : "bg-gray-100"}`}>
       <div className={`py-10 px-5 text-center transition-colors duration-300 ${isDark ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-900"}`}>
         <h2 className="text-2xl font-bold mb-3">Subscribe to Our Newsletter</h2>
         <p className="mb-5">Get the latest updates and articles directly in your inbox.</p>

@@ -40,10 +40,8 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
         token: data.token
       }));
       
-      // Set authorization header for future requests
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
       
-      // Notify parent or redirect
       if (onAuthSuccess) {
         onAuthSuccess(data);
         setIsLoading(false)
@@ -98,7 +96,7 @@ const handleSignup = () => {
                 type="text"
                 id="name"
                 name="name"
-                placeholder="John Doe"
+                placeholder="e.g Olamilekan Kareem"
                 value={formData.name}
                 onChange={handleChange}
                 className="w-full p-3 border rounded-lg dark:bg-gray-300 dark:border-gray-600"
