@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import HomeNavbar from "../Components/HomeNavbar.jsx";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ClipLoader } from "react-spinners";
 
 export default function Editor() {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -139,6 +140,15 @@ export default function Editor() {
       setLoading(false);
     }
   };
+  if (loading)
+      return (
+        <div className="text-center py-8">
+          <ClipLoader size={150} aria-label="Loading Spinner" data-testid="loader" color="#36d7b7" />
+        </div>
+      );
+  
+    if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
+  
 
   return (
     <div className="max-w-4xl mx-auto p-4">
