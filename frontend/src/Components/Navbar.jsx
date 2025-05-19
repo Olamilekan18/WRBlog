@@ -110,7 +110,7 @@ onClick={() => scrollToAbout()}
               </a>
             </li>
             <li>
-              <a href="#" className="block text-lg border-b-2 border-transparent hover:border-green-500">
+              <a href="https://wr-blog.vercel.app/view-blogs" className="block text-lg border-b-2 border-transparent hover:border-green-500">
                 View Blogs
               </a>
             </li>

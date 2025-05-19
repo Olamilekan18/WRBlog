@@ -10,7 +10,7 @@ const { isDark, toggle } = useDarkMode();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredPosts, setFilteredPosts] = useState(posts); // Initialize with all posts
+  const [filteredPosts, setFilteredPosts] = useState(posts);
 
   const handleSearchChange = (e) => {
     const query = e.target.value.toLowerCase();
@@ -29,7 +29,7 @@ const { isDark, toggle } = useDarkMode();
   const handleLogout = () => {
     localStorage.removeItem("userData"); // Clear user data from localStorage
     navigate("/login"); // Redirect to login page
-    window.location.href = "/login"; // Redirect to login page
+    // window.location.href = "/login"; 
   };
 
   const handleDashboard = () =>{
@@ -43,14 +43,16 @@ const { isDark, toggle } = useDarkMode();
   const handleWritePost = () => {
     navigate("/editor");
   }
+
+  const goHome = () =>{
+    navigate('/home')
+  }
   return (
     <nav className={`flex items-center justify-between p-4 border-b shadow-md transition-colors duration-300 ${
       isDark ? "bg-gray-900 text-white border-gray-700" : "bg-gray-100 text-green-700 border-green-300"
     }`}>
-      {/* Logo */}
-      <div className="text-xl font-bold"><a href="/home">WRBlog</a></div>
+      <div className="text-xl font-bold"><button onClick={goHome}>WRBlog</button></div>
 
-      {/* Dark Mode Toggle (Desktop) */}
       <button
         onClick={toggle}
         className={`hidden cursor-pointer md:block p-2 rounded  ${
