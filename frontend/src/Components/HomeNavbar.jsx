@@ -28,11 +28,20 @@ const { isDark, toggle } = useDarkMode();
 
   const handleLogout = () => {
     localStorage.removeItem("userData"); // Clear user data from localStorage
+    navigate("/login"); // Redirect to login page
     window.location.href = "/login"; // Redirect to login page
   };
 
   const handleDashboard = () =>{
     navigate('/dashboard')
+  }
+
+  const handleViewPosts = () => {
+    navigate("/all-posts");
+  }
+
+  const handleWritePost = () => {
+    navigate("/editor");
   }
   return (
     <nav className={`flex items-center justify-between p-4 border-b shadow-md transition-colors duration-300 ${
@@ -80,7 +89,6 @@ const { isDark, toggle } = useDarkMode();
   )}
 </div>
 
-      {/* Mobile Menu Button */}
       <button
         className={`md:hidden ${isDark ? "text-white" : "text-green-700"}`}
         onClick={() => setIsOpen(!isOpen)}
@@ -88,22 +96,24 @@ const { isDark, toggle } = useDarkMode();
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {/* Desktop Navigation Links */}
       <ul className="hidden md:flex space-x-6">
         <li>
-          <a href="/all-posts" className="border-b-2 border-transparent hover:border-green-500 transition">
+          <button
+          onClick={handleViewPosts}
+           className="border-b-2 border-transparent hover:border-green-500 transition">
             View Blogs
-          </a>
+          </button>
         </li>
         <li>
-          <a href="/editor" className="border-b-2 border-transparent hover:border-green-500 transition">
+          <button
+          onClick={handleWritePost}
+           className="border-b-2 border-transparent hover:border-green-500 transition">
             Write Blogs
-          </a>
+          </button>
         </li>
       </ul>
 
 
-      {/* Desktop CTA Buttons */}
       <div className="hidden md:flex space-x-4">
         <button onClick={handleLogout} className={`px-4 py-2 cursor-pointer border ${
           isDark ? "border-gray-600 hover:bg-gray-700" : "border-green-500 hover:bg-green-100"
@@ -125,7 +135,7 @@ const { isDark, toggle } = useDarkMode();
             <X size={24} />
           </button>
 
-          {/* Mobile Dark Mode Toggle */}
+         
           <button
             onClick={toggle}
             className={`p-2 border ${
