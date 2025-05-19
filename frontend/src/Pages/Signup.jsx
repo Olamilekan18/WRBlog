@@ -61,8 +61,12 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
     }
   };
   if (isLoading) return <div className="text-center py-8">Loading...</div>;
-
-
+  const handleLogin = () => {
+    navigate("/login");
+  }
+const handleSignup = () => {
+    navigate("/signup");
+  }
   return (
     <div>
       <Navbar/>
@@ -165,17 +169,17 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
           {type === "signup" ? (
             <p className="text-sm text-green-300">
               Already have an account?{" "}
-              <a href="/login" className="text-green-600 hover:underline dark:text-green-400">
+              <button onClick={handleLogin} className="text-green-600 hover:underline dark:text-green-400">
                 Login here
-              </a>
+              </button>
             </p>
           ) : (
 
             <p className="text-sm dark: text-green-500">
               Don't have an account?{" "}
-              <a href="/signup" className="text-green-600 hover:underline dark:text-green-200">
+              <button onClick={handleSignup} className="text-green-600 hover:underline dark:text-green-200">
                 Sign up here
-              </a>
+              </button>
               <ForgotPassword className="block text-sm text-green-300 font-medium mb-1" />
             </p>
           )}

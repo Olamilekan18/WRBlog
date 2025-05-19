@@ -53,9 +53,9 @@ const Newsletter = () => {
               <div className="container mx-auto px-6 text-center">
                 {/* Navigation Links */}
                 <div className="flex justify-center space-x-6 mb-4">
-                  <a href="/about" className="hover:underline">About Us</a>
-                  <a href="/contact" className="hover:underline">Contact</a>
-                  <a href="/privacy" className="hover:underline">Privacy Policy</a>
+                  <a href="https://wr-blog.vercel.app/about" className="hover:underline">About Us</a>
+                  <a href="https://wr-blog.vercel.app/contact" className="hover:underline">Contact</a>
+                  <a href="https://wr-blog.vercel.app/privacy" className="hover:underline">Privacy Policy</a>
                 </div>
         
                 {/* Social Media Links */}
