@@ -12,6 +12,7 @@ import Editor from "./Pages/Editor.jsx";
 import PostDetails from "./Pages/PostDetails.jsx";
 import ProtectedRoute from "./Components/ProtectedRoute"; 
 import LandingPage from "./Pages/LandingPage.jsx";
+import PrivacyPolicy from "./Components/PrivacyPolicy.jsx";
 
 function App() {
   return (
@@ -75,9 +76,17 @@ function App() {
             <Route
               path="/posts/:postId"
               element={
-                <ProtectedRoute>
                   <PostDetails />
-                </ProtectedRoute>
+              }
+            />
+
+            {/* Privacy Policy Route */}
+            <Route
+              path="/privacy-policy"
+              element={
+            
+                  <PrivacyPolicy />
+               
               }
             />
 
