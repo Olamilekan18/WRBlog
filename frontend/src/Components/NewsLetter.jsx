@@ -40,7 +40,7 @@ const Newsletter = () => {
   }
   
 const handlePrivacy = () => {
-  navigate("/privacy");
+  navigate("/privacy-policy");
 }
 
   return (

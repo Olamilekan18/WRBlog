@@ -67,6 +67,7 @@ export const forgotPassword = async (req, res) => {
       user.passwordResetToken = passwordResetToken;
       user.passwordResetExpires = passwordResetExpires;
       await user.save(); 
+      console.log(process.env.FRONTEND_URL)
 const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
       const transporter = nodemailer.createTransport({
@@ -108,19 +109,16 @@ export const resetPassword = async (req, res) => {
           return res.status(400).json({ message: "All fields are required" });
       }
 
-      // Hash token
       const hashedToken = crypto.createHash('sha256')
           .update(token)
           .digest('hex');
 
-      // Find user with valid token
       const user = await User.findOne({
           passwordResetToken: hashedToken,
           passwordResetExpires: { $gt: Date.now() }
       }).select('+passwordResetToken +passwordResetExpires');
 
       if (!user) {
-          // Check if token exists but expired
           const expiredUser = await User.findOne({
               passwordResetToken: hashedToken
           });
@@ -138,7 +136,6 @@ export const resetPassword = async (req, res) => {
       user.passwordResetExpires = undefined;
       await user.save();
 
-      // Optional: Send confirmation email
       sendPasswordChangedEmail(user.email);
 
       return res.status(200).json({ 

@@ -254,7 +254,7 @@ const handleSavePost = async () => {
     <div>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} 
         closeOnClick pauseOnHover draggable pauseOnFocusLoss theme="light" />
-      <HomeNavbar/>
+      <HomeNavbar posts={posts}/>
       
       <div className="max-w-3xl mx-auto shadow-md rounded-2xl p-6 mt-10 border border-gray-200">
         <h1 className="text-4xl font-extrabold mb-3">{post.title}</h1>
