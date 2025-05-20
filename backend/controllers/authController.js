@@ -82,7 +82,12 @@ const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
           to: user.email,
           from: process.env.EMAIL_FROM,
           subject: 'Password Reset',
-          text: `You requested a password reset. Please click the following link to reset your password: ${resetUrl}`
+          text: `You requested a password reset. Please click the following link to reset your password: ${resetUrl}
+          
+          If you did not request this, please ignore this email.  Keep in mind that the link will expire in 1 hour.
+          If you have any questions, feel free to reach out to us at olamilekankareem717@gmail.com
+          Keep Using WRBlog 😊 `,
+
       };
  
 
