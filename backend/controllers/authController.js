@@ -68,7 +68,7 @@ export const forgotPassword = async (req, res) => {
       user.passwordResetExpires = passwordResetExpires;
       await user.save(); 
       console.log(process.env.FRONTEND_URL)
-const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+const resetUrl = `https://wr-blog.vercel.app/reset-password/${resetToken}`;
 
       const transporter = nodemailer.createTransport({
           service: 'gmail',
