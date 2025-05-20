@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import HomeNavbar from "../Components/HomeNavbar.jsx";
+// import HomeNavbar from "../Components/HomeNavbar.jsx";
+import ModifiedNavbar from "../Components/ModifiedNavbar";
 import { ToastContainer, toast } from "react-toastify";
 import {
   Heart,
@@ -254,7 +255,7 @@ const handleSavePost = async () => {
     <div>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} 
         closeOnClick pauseOnHover draggable pauseOnFocusLoss theme="light" />
-      <HomeNavbar posts={posts}/>
+      <ModifiedNavbar/>
       
       <div className="max-w-3xl mx-auto shadow-md rounded-2xl p-6 mt-10 border border-gray-200">
         <h1 className="text-4xl font-extrabold mb-3">{post.title}</h1>

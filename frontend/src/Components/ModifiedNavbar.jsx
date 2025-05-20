@@ -2,17 +2,13 @@ import React, { useState } from "react";
 import { Menu, X, Moon, Sun } from "lucide-react";
 import { useDarkMode } from "../context/DarkModeContext";
 import { useNavigate } from "react-router-dom";
-import { Search } from "lucide-react";
 
-const HomeNavbar = ({posts}) => {
+const ModifiedNavbar = () => {
 const { isDark, toggle } = useDarkMode();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [filteredPosts, setFilteredPosts] = useState(posts);
 
-   const handlePostClick = (postId) => {
-    navigate(`/posts/${postId}`);
-  };
+  
 
   const handleLogout = () => {
     localStorage.removeItem("userData"); // Clear user data from localStorage
@@ -152,4 +148,4 @@ const { isDark, toggle } = useDarkMode();
   );
 };
 
-export default HomeNavbar; 
+export default ModifiedNavbar; 
