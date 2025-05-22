@@ -68,6 +68,7 @@ export const forgotPassword = async (req, res) => {
       user.passwordResetExpires = passwordResetExpires;
       await user.save(); 
       console.log(process.env.FRONTEND_URL)
+      //if you're cloning this, make  sure to change the frontend URL to your own
 const resetUrl = `https://wr-blog.vercel.app/reset-password/${resetToken}`;
 
       const transporter = nodemailer.createTransport({

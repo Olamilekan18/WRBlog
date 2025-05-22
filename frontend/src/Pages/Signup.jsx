@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ForgotPassword from "../Components/ForgotPassword";
 import Navbar from "../Components/Navbar";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 const AuthForm = ({ isDark, type, onAuthSuccess }) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     axios.defaults.baseURL = `${backendUrl}`; 
@@ -15,6 +15,7 @@ const AuthForm = ({ isDark, type, onAuthSuccess }) => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -125,17 +126,28 @@ const handleSignup = () => {
             <label htmlFor="password" className="block text-sm text-green-300 font-medium mb-1">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="••••••••"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full p-3 border rounded-lg dark:bg-gray-300 dark:border-gray-600"
-              required
-              minLength="6"
-            />
+            <div className="relative">
+  <input
+    type={showPassword ? "text" : "password"}
+    id="password"
+    name="password"
+    placeholder="••••••••"
+    value={formData.password}
+    onChange={handleChange}
+    className="w-full p-3 border rounded-lg dark:bg-gray-300 dark:border-gray-600"
+    required
+    minLength="6"
+  />
+ <button
+  type="button"
+  onClick={() => setShowPassword((prev) => !prev)}
+  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-600"
+  tabIndex={-1}
+  aria-label={showPassword ? "Hide password" : "Show password"}
+>
+  {showPassword ? <FaEyeSlash /> : <FaEye />}
+</button>
+</div>
           </div>
           
           <button
