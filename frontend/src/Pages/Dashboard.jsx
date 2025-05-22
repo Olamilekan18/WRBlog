@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import HomeNavbar from "../Components/HomeNavbar.jsx";
 import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
+import ModifiedNavbar from "../Components/ModifiedNavbar.jsx";
 function Dashboard() {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [stats, setStats] = useState([]);
@@ -65,7 +65,7 @@ function Dashboard() {
 
     return (
       <div className="min-h-screen">
-        <HomeNavbar />
+        <ModifiedNavbar />
         <div className="p-6 min-h-screen text-gray-800 max-w-7xl mx-auto">
           
           
