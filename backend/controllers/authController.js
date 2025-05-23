@@ -136,7 +136,6 @@ export const resetPassword = async (req, res) => {
           });
       }
 
-      // Update password
       user.password = password;
       user.passwordResetToken = undefined;
       user.passwordResetExpires = undefined;

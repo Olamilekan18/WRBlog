@@ -63,6 +63,12 @@ function Dashboard() {
 
   if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
 
+  const getPreview = (content, wordLimit = 30) => {
+  const words = content.split(/\s+/);
+  if (words.length <= wordLimit) return content;
+  return words.slice(0, wordLimit).join(" ") + " ...";
+};
+
     return (
       <div className="min-h-screen">
         <ModifiedNavbar />
@@ -99,10 +105,14 @@ function Dashboard() {
                 {savedPosts.map((post) => (
                   <div key={post._id} onClick={()=>navigate(`/posts/${post._id}`)} className="border p-4 rounded-lg shadow bg-white hover:shadow-neutral-500 ">
                     <p>{post.title}</p>
-                    <div
+                    {/* <div
                       className="text-gray-800 prose max-w-none"
                       dangerouslySetInnerHTML={{ __html: post.content }}
-                    />
+                    /> */}
+               <div
+      className="text-gray-800 text-sm mb-2"
+      dangerouslySetInnerHTML={{ __html: getPreview(post.content, 30) }}
+    />
                     <p className="text-xs text-gray-500 mt-2">
                       Posted on {new Date(post.createdAt).toLocaleDateString()}
                     </p>

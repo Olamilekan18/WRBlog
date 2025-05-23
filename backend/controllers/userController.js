@@ -62,6 +62,7 @@ export const getCurrentUserProfile = async (req, res) => {
 // @desc    Update user profile
 // @route   PUT /api/users/profile
 // @access  Private
+
 export const updateUserProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
@@ -145,7 +146,7 @@ export const updateProfilePicture = async (req, res) => {
     try {
       const userId = req.user.id;
   
-      const posts = await Post.find({ author: userId }).lean(); // Add .lean() for better performance
+      const posts = await Post.find({ author: userId }).lean(); 
   
       const totalPosts = posts.length;
       const totalLikes = posts.reduce((sum, post) => sum + (post.likes?.length || 0), 0);

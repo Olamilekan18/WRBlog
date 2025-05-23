@@ -134,7 +134,22 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 function PostCard({ post, onDelete, onEdit, handlePost }) {
   
-  const [expanded, setExpanded] = useState(false);
+ const [expanded, setExpanded] = useState(false);
+
+  // Helper to get up to N words
+  const getPreview = (content, wordLimit) => {
+    const words = content.split(/\s+/);
+    if (words.length <= wordLimit) return content;
+    return words.slice(0, wordLimit).join(" ") + " ...";
+  };
+
+  const isLong = post.content.split(/\s+/).length > 20;
+
+  // Show 20 words by default, 250 words if expanded
+  const previewContent = expanded
+    ? getPreview(post.content, 100)
+    : getPreview(post.content, 20);
+
  
 
   return (
@@ -160,20 +175,19 @@ function PostCard({ post, onDelete, onEdit, handlePost }) {
         <div
           className="text-green-700 mb-4"
           dangerouslySetInnerHTML={{
-            __html: expanded
-              ? post.content
-              : post.content.slice(0, 100) + (post.content.length > 100 ? "..." : ""),
+            __html: previewContent,
           }}
         ></div>
 
-        {post.content.length > 100 && (
+        {isLong && (
           <button
             onClick={() => setExpanded(!expanded)}
             className="text-blue-600 hover:underline"
           >
-            {expanded ? "See Less" : "See More"}
+            {expanded ? "See Less" : "Preview"}
           </button>
         )}
+
         <div className="flex justify-between items-center">
           <span className="text-sm text-green-600">
             {new Date(post.createdAt).toLocaleDateString()}

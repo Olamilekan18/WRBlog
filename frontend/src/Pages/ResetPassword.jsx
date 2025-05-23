@@ -106,6 +106,9 @@ export default function ResetPasswordPage() {
               {message}
             </div>
           )}
+          <p
+            className="text-sm font-medium text-green-600 hover:text-green-500"
+            >Make sure your password is at least 5 characters</p>
         </div>
       </div>
     </div>

@@ -77,6 +77,7 @@ export default function ForgotPasswordPage() {
             >
               Back to login
             </button>
+            
           </div>
         </div>
       </div>
